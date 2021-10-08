@@ -61,8 +61,8 @@
                             <field name="res_user_id" attrs="{'readonly':[('state','!=','draft')]}"/>
                             <field name="company_id" attrs="{'readonly':[('state','!=','draft')]}"/>
                             <field name="active_flag" invisible="1"/>
-                            <field name="sevenday_mail" invisible="1"/>
-                            <field name="oneday_mail" invisible="1"/>
+                            <field name="sevenday_mail" invisible="0"/>
+                            <field name="oneday_mail" invisible="0"/>
 
                         </group>
                         <group>
