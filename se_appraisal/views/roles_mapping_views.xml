@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="hr_role_mapping_tree" model="ir.ui.view">
+        <field name="name">hr_role_mapping_tree</field>
+        <field name="model">role.mapping</field>
+        <field name="arch" type="xml">
+            <tree string="Roles Mapping">
+                <field name="roles_assign"/>
+                <field name="select_admin"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_hr_form_roles_mapping" model="ir.ui.view">
+        <field name="name">view_hr_form_roles_mapping</field>
+        <field name="model">role.mapping</field>
+        <field name="arch" type="xml">
+            <form string="Role Mapping">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="select_admin"/>
+                        <field name="roles_assign"/>
+                        <field name="objectives_assign" widget="one2many">
+                            <tree string="Okr Mapping" editable="bottom">
+                                <field name="role_assign_line" string="Objectives"/>
+                                <field name="key_skill_many_role" widget="many2many_tags"/>
+                                <field name="objective_weight" widget="percentage"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_role_assign_action" model="ir.actions.act_window">
+        <field name="name">Role Mapping</field>
+        <field name="res_model">role.mapping</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="PMS" id="hr_pms_menu"/>
+    <menuitem name="OKR" id="okr_parent_menu" parent="hr_pms_menu"/>
+    <menuitem name="PIP/BIP" id="pip_parent_menu" parent="hr_pms_menu"/>
+    <menuitem name="Role Mapping" action="hr_role_assign_action" id="hr_role_neww_menu_item" sequence="3"
+              parent="okr_parent_menu"/>
+
+</odoo>

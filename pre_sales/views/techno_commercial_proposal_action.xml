@@ -1,0 +1,11 @@
+<odoo>
+    <record id="action_techno_commercial_proposal" model="ir.actions.report">
+        <field name="name">Techno Commercial Proposal</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pre_sales.techno_commercial_proposal_receipt</field>
+        <field name="paperformat_id" ref="pre_sales.paperformat_proposal"/>
+        <field name="binding_model_id" ref="model_sale_order"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

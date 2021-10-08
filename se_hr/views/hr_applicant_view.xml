@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_applicant_form_se_custom" model="ir.ui.view">
+        <field name="name">hr.applicant.se_custom.view</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="se_custom.candidate_communication_form_new"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='can_comm']/.." position="before">
+                <field name="stages" invisible="1"/>
+                <field name="is_matching" invisible="1"/>
+            </xpath>
+            <xpath expr="/form/header//button[@name='send_refuse_mail']" position="attributes">
+                <attribute name="attrs">{'invisible': [('is_matching', '=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='can_comm']/.." position="attributes">
+                <attribute name="attrs">{'invisible': [('stages','not in',('cand_manage'))]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_applicant_form_inherited" model="ir.ui.view">
+        <field name="name">hr.applicant.form.view</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header//field[@name='stage_id']" position="attributes">
+                <attribute name="options">{'fold_field': 'fold'}</attribute>
+            </xpath>
+            <xpath expr="/form//field[@name='email_cc']" position="attributes">
+                <attribute name='invisible'>1</attribute>
+            </xpath>
+            <xpath expr="/form//field[@name='email_from']" position="attributes">
+                <attribute name='attrs'>{'required': True}</attribute>
+            </xpath>
+            <xpath expr="/form//field[@name='partner_name']" position="attributes">
+                <attribute name='attrs'>{'required': True}</attribute>
+            </xpath>
+            <xpath expr="/form//field[@name='partner_phone']" position="attributes">
+                <attribute name='attrs'>{'required': True}</attribute>
+            </xpath>
+            <xpath expr="/form//field[@name='priority']" position="attributes">
+                <attribute name='invisible'>1</attribute>
+            </xpath>
+            <xpath expr="/form//field[@name='partner_mobile']" position="attributes">
+                <attribute name='invisible'>1</attribute>
+            </xpath>
+            <xpath expr="/form//field[@name='categ_ids']" position="attributes">
+                <attribute name='invisible'>1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='is_rejected']" position="attributes">
+                <attribute name='invisible'>1</attribute>
+            </xpath>
+            <!--            <xpath expr="/form//field[@name='salary_expected']" position="replace">-->
+            <!--                <field name="salary_expected" invisible="1" nolabel="1"/>-->
+            <!--            </xpath>-->
+            <xpath expr="/form//header//button[@name='create_employee_from_applicant']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|','|',('emp_id', '!=', False),('active', '=', False),('stages','not in',('emp_create'))]}</attribute>
+            </xpath>
+
+            <xpath expr="/form//sheet//button[@name='action_makeMeeting']" position="attributes">
+                <attribute name="attrs">{'invisible': [('stages','in',('sourcing','cv_sel'))]}</attribute>
+            </xpath>
+            <xpath expr="/form/sheet/group//group[3]" position="after">
+                <group string="Contract" name="contracts" attrs="{'invisible': [('is_matching', '=', False)]}">
+                    <field name="current_salary"/>
+                    <field name="availability"/>
+                </group>
+            </xpath>
+            <xpath expr="/form/sheet/group//group[3]" position="before">
+                <group string="Selection/Rejection" attrs="{'invisible':[('stages','in',('sourcing'))]}">
+                    <field name="is_rejected" attrs="{'invisible':[('stages','in',('sourcing'))]}"/>
+                </group>
+            </xpath>
+            <xpath expr="/form/sheet//field[@name='availability']/../.." position="after">
+                <div id="param_comments" attrs="{'invisible':[('stages','not in',('tech_int_1','tech_int_2','hr_int'))]}">
+                    <group string="IRS Comments">
+                        <group>
+                            <field name="communication"/>
+                            <field name="organisation"/>
+                            <field name="tot_exp"/>
+                            <field name="rel_exp"/>
+                            <field name="curr_location"/>
+                            <field name="pref_location"/>
+                            <field name="job_change_reason"/>
+                            <field name="relocation"/>
+                        </group>
+                        <group>
+                            <field name="open_to_travel"/>
+                            <field name="curr_ctc"/>
+                            <field name="month_salary"/>
+                            <field name="expd_ctc"/>
+                            <field name="notice_period"/>
+                            <field name="offer_inhand"/>
+                            <field name="qualification"/>
+                            <field name="certi"/>
+                        </group>
+                    </group>
+                </div>
+            </xpath>
+            <xpath expr="/form/sheet/group//group[6]" position="attributes">
+                <attribute name='invisible'>1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='availability']/.." position="attributes">
+                <attribute name='invisible'>1</attribute>
+            </xpath>
+            <xpath expr="/form//field[@name='source_id']" position="attributes">
+                <attribute name="attrs">{'invisible': [('is_source','=',True)]}</attribute>
+            </xpath>
+            <xpath expr="/form//field[@name='source_id']" position="after">
+                <field name="is_refered" invisible="1"/>
+                <field name="is_matching" invisible="1"/>
+                <field name="is_source" invisible="1"/>
+                <field name="is_offer" invisible="1"/>
+                <field name="is_matching" invisible="1"/>
+                <field name="hide_approve" invisible="1"/>
+                <field name="is_approve" invisible="1"/>
+                <field name="stages" invisible="1"/>
+                <field name="refer_by" attrs="{'invisible': [('is_refered', '=', True)]}"/>
+                <field name="offer_letter_appl" invisible="1"/>
+            </xpath>
+            <xpath expr="/form//field[@name='partner_id']" position="after">
+                <field name="refuse_hide" invisible="1"/>
+                <field name="irs_hide" invisible="1"/>
+                <field name="stage_duration_update" invisible="1"/>
+            </xpath>
+            <xpath expr="/form//button[@name='archive_applicant']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|','|',('active', '=', False),('refuse_hide','=',True),('stages','in',('sourcing','cv_sel'))]}</attribute>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_show_irs" class="oe_stat_button" string="IRS" icon="fa-pencil-square-o"
+                        type="object" attrs="{'invisible':[('stages','in',('sourcing','cv_sel'))]}"/>
+                <button name="action_show_cff" class="oe_stat_button" string="Candidate Feedback"
+                        icon="fa-pencil-square-o" type="object" attrs="{'invisible':['|',('refuse_hide','=',True),('stages','not in',('tech_int_1','tech_int_2','hr_int'))]}">
+                </button>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="%(se_hr.action_interview_rating_form)d" type="action" class="oe_highlight"
+                        string="Create IRS"
+                        attrs="{'invisible':['|','|',('hide_approve','=',True),('irs_hide','=',True),('stages','not in',('tech_int_1','tech_int_2','hr_int'))]}" />
+                <button name="%(se_hr.action_custom_survey_form)d" type="action" class="oe_highlight"
+                        string="Create Candidate Feedback Form" attrs="{'invisible':['|',('refuse_hide','=',True),('stages','not in',('tech_int_1','tech_int_2','hr_int'))]}"/>
+                <button name="approve" string="Approve" type="object" class="oe_highlight"
+                        attrs="{'invisible':['|',('hide_approve','=',True),('stages','in',('offer_maker','offer_checker','emp_create'))]}"/>
+            </xpath>
+            <xpath expr="//button[@name='archive_applicant']" position="after">
+                <button class="oe_stat_button" name="action_create_offer_letters" type="object" string="Offer letter"
+                        attrs="{'invisible': ['|',('is_offer', '=', True),('stages','not in',('offer_maker'))]}">
+                </button>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" name="action_smart_offer_view" type="object" icon="fa-pencil"
+                        string="Offer Letter"
+                        attrs="{'invisible': ['|',('is_offer', '=', False),('stages','in',('sourcing','cv_sel','tech_int_1','tech_int_2',
+                        'hr_int','cand_sel'))]}">
+                    <!--                    <field name="offer_letter_counts" widget="statinfo" string="Offer letter"/>-->
+                </button>
+            </xpath>
+            <!--            <xpath expr="/form/sheet/group" position="after">-->
+            <!--                <notebook>-->
+            <!--                    <page string="Stages">-->
+            <!--                        <field name="stage_duration">-->
+            <!--                            <tree editable="bottom">-->
+            <!--                                <field name="stage_id"/>-->
+            <!--                                <field name="date_start"/>-->
+            <!--                                <field name="date_stop"/>-->
+            <!--                            </tree>-->
+            <!--                        </field>-->
+            <!--                    </page>-->
+            <!--                </notebook>-->
+            <!--            </xpath>-->
+        </field>
+    </record>
+
+    <record id="hr_applicant_kanban_inherited" model="ir.ui.view">
+        <field name="name">hr.applicant.kanban.view</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_kanban_view_applicant"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='priority']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='stage_id']" position="attributes">
+                <attribute name="readonly">True</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="view_hr_recruitment_tree_generate_email" model="ir.ui.view" >
+        <field name="name">view_hr_recruitment_tree_generate_email</field>
+        <field name="model">hr.recruitment.source</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_recruitment_source_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='create_alias']" position="replace">
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

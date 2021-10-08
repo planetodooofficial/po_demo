@@ -1,0 +1,12 @@
+<odoo>
+
+    <record id="action_offer_letter_receipt" model="ir.actions.report">
+        <field name="name">Offer Letter Preview</field>
+        <field name="model">offer.letter</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">se_hr.pdf_offer_letter_receipt</field>
+        <field name="paperformat_id" ref="se_hr.paperformat_offer_letter"/>
+        <field name="binding_model_id" ref="model_offer_letter"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

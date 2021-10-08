@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="interview_rating_form_view" model="ir.ui.view">
+            <field name="name">interview.rating.form</field>
+            <field name="model">interview.sheet</field>
+            <field name="arch" type="xml">
+                <form string="Interview Rating Sheet" class="oe_highlight" create="0">
+                    <div id="irs_for" style="color:#6A5ACD;">
+                        <h2>
+                            <field name="name" nolabel="1"/>
+                        </h2>
+
+                    </div>
+
+                    <div id="basic_details">
+                        <group string="Application Details">
+                            <group>
+                                <field name="candidate"/>
+                                <field name="level"/>
+                                <!--                                <field name=""/>-->
+                            </group>
+                            <group>
+                                <field name="job_position"/>
+                                <field name="clients_name"/>
+                                <!--                                <field name=""/>-->
+                            </group>
+                        </group>
+                    </div>
+                    <div id="param_comments">
+                        <group string="Comments">
+                            <group>
+                                <field name="communication"/>
+                                <field name="organisation"/>
+                                <field name="tot_exp"/>
+                                <field name="rel_exp"/>
+                                <field name="curr_location"/>
+                                <field name="pref_location"/>
+                                <field name="job_change_reason"/>
+                                <field name="relocation"/>
+                            </group>
+                            <group>
+                                <field name="open_to_travel"/>
+                                <field name="curr_ctc"/>
+                                <field name="month_salary"/>
+                                <field name="expd_ctc"/>
+                                <field name="notice_period"/>
+                                <field name="offer_inhand"/>
+                                <field name="qualification"/>
+                                <field name="certi"/>
+                            </group>
+                        </group>
+                    </div>
+                    <div id="final_feedback_comments">
+                        <group string="Final &amp; Feedback Comments">
+                            <group>
+                                <field name="owner"/>
+                                <field name="date"/>
+                            </group>
+                            <group>
+                                <field name="feed_comments"/>
+                            </group>
+                            <group>
+                                <field name="appl_status" widget="radio" nolabel="1" decoration-danger="appl_status == 'reject'" decoration-success="appl_status == 'select'" decoration-muted="appl_status == 'hold'"/>
+                            </group>
+                        </group>
+                    </div>
+                    <div id="ratings">
+                        <group string="Ratings">
+                            <group>
+                                <field name="image_smiles" widget="image" invisible="0"/>
+                                <field name="claims_for_work" widget="priority"/>
+                                <field name="honesty" widget="priority"/>
+                                <field name="presentability" widget="priority"/>
+                                <field name="comm_skills" widget="priority"/>
+                                <field name="attitude" widget="priority"/>
+                                <field name="confidence" widget="priority"/>
+                            </group>
+                            <group>
+                                <field name="thoughts_clarity" widget="priority"/>
+                                <field name="struct_approach" widget="priority"/>
+                                <field name="tech_strength" widget="priority"/>
+                                <field name="prim_focus" widget="radio"/>
+                                <field name="se_fitment" widget="priority"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="recording"/>
+                        </group>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="interview_rating_tree_view" model="ir.ui.view">
+            <field name="name">interview.rating.form</field>
+            <field name="model">interview.sheet</field>
+            <field name="arch" type="xml">
+                <tree string="Interview Rating Sheets" create="0">
+                    <field name="candidate"/>
+                    <field name="owner"/>
+                    <field name="job_position"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_interview_rating" model="ir.actions.act_window">
+            <field name="name">Interview Rating Sheet</field>
+            <field name="res_model">interview.sheet</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new interview rating sheet
+                </p>
+            </field>
+        </record>
+
+
+        <record id="action_interview_rating_form" model="ir.actions.act_window">
+            <field name="name">Interview Rating Sheet</field>
+            <field name="res_model">interview.sheet</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="interview_rating_own_rule" model="ir.rule">
+            <field name="name">View Predecessors sheet</field>
+            <field name="model_id" ref="model_interview_sheet"/>
+            <field name="domain_force">['|',('owner','=',user.id),('allowed_users.id','=',user.id)]</field>
+        </record>
+    </data>
+</odoo>

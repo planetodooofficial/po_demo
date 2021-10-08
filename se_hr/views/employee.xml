@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_employee_form_view" model="ir.ui.view">
+        <field name="name">hr.employee.form.view.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='coach_id']/.." position="inside">
+                <field name="join_date"/>
+            </xpath>
+            <xpath expr="//page[@name='hr_settings']" position="after">
+                <page name="hr_settings" string="Additional Details">
+                    <group>
+                        <group>
+                            <!--                            <field name="join_date"/>-->
+                            <field name="status"/>
+                            <field name="design_tation"/>
+                            <field name="level"/>
+
+                        </group>
+
+                        <group>
+                            <field name="masters"/>
+                            <field name="aad_no"/>
+                            <field name="rol_e"/>
+                            <field name="emergence_details"/>
+                        </group>
+                        <group>
+                            <field name="bae_location"/>
+                            <field name="busines_head"/>
+                            <field name="date_resign"/>
+                            <field name="certi_ficate"/>
+                        </group>
+                        <group>
+
+                            <field name="prev_org"/>
+                            <field name="skill"/>
+                            <field name="total_exp"/>
+                            <field name="current_billability"/>
+                        </group>
+                        <group>
+                            <field name="billability_per"/>
+                            <field name="prev_proj"/>
+                            <field name="fix_ctc"/>
+                            <field name="last_salary_incre"/>
+                        </group>
+                        <group>
+                            <field name="date_last_prog"/>
+                            <field name="defer_bonus"/>
+                            <field name="employe_id"/>
+                            <field name="ty_pe"/>
+                        </group>
+                        <group>
+
+                            <field name="new_name"/>
+                            <field name="fun_tion"/>
+                            <field name="reporting_manager"/>
+                            <field name="bachelors"/>
+                        </group>
+                        <group>
+                            <field name="dol"/>
+                            <field name="busi_ness"/>
+                            <field name="reason_leave"/>
+                            <field name="resg_type"/>
+                        </group>
+                        <group>
+                            <field name="incen_flag"/>
+                            <field name="curr_proj"/>
+                            <field name="curent_resign"/>
+                            <field name="total_exp_comp"/>
+                        </group>
+                        <group>
+                            <field name="total_exp_comp_proj"/>
+                            <field name="proj_mang"/>
+                            <field name="cost_mang"/>
+                            <field name="join_bonus"/>
+                        </group>
+                        <group>
+                            <field name="esop_allot"/>
+                            <field name="market_bench"/>
+                            <field name="var_pay"/>
+                            <field name="perman_add"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pip_meeting_form_view" model="ir.ui.view">
+        <field name="name">pip.meeting.form.view</field>
+        <field name="model">pip.meeting</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="create_date"/>
+                    </group>
+                    <notebook>
+                        <page name="goals_outcome" string="Improvement Goals/ Expected Outcomes:">
+                            <field name="goals_outcomes">
+                                <tree editable="bottom">
+                                    <field name="name" style="width:200px"/>
+                                    <field name="success_criteria"/>
+                                    <field name="weightage" widget="percentage"/>
+                                    <field name="comments" style="width:400px;height:60px;"/>
+                                    <field name="met_notmet"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pip_meeting_tree_view" model="ir.ui.view">
+        <field name="name">pip.meeting.tree.view</field>
+        <field name="model">pip.meeting</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_pip_meeting">
+        <field name="name">PIP Meetings</field>
+        <field name="res_model">pip.meeting</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+</odoo>

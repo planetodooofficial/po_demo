@@ -1,0 +1,39 @@
+<odoo>
+    <template id="pdf_offer_letter_candidate_receipt" name="Offer Letter">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <body>
+                <p style="text-align: right;">Date:</p>
+                <p>
+                    <left>
+                        <p>To,
+                        </p>
+                        <p t-if="o.partner_name"><t t-esc="o.partner_name"/>
+                        </p>
+                        <p>Address
+                        </p>
+                    </left>
+                </p>
+
+                <p t-if="o.partner_name">Dear <t t-esc="o.partner_name"/>,</p>
+                <p>We are pleased to offer you the position of <t t-if="o.job_id.name"><t t-esc="o.job_id.name"/></t> with our organization and your joining will be on
+                    or before <t t-if="o.offer_letter_appl.date_of_join"> <t t-esc="o.offer_letter_appl.date_of_join"/> </t>with an annual CTC of Rs.<t t-esc="o.salary_proposed"/>. Your current base location will be<t t-if="o.offer_letter_appl.job_location"> <t t-esc="o.offer_letter_appl.job_location"/></t> with
+                    domestic and/or overseas project travel/relocation as per business requirements.
+                </p>
+                <p>A detailed appointment letter will be issued on actual date of your joining the organization. Your
+                    offer has been made based on information furnished by you. However, if there is a discrepancy in the
+                    copies of documents or certificates given by you as a proof of above, we retain the right to revoke
+                    the offer.
+                </p>
+                <p>Please confirm your acceptance of this offer in the next 48 hours.
+                </p>
+                <p>
+                    We wish you a long and rewarding career with SecurEyes.
+                    Please sign and return the duplicate copy of this letter or email us the confirmation as a token of
+                    acceptance
+                </p>
+            </body>
+        </t>
+    </t>
+</template>
+        </odoo>

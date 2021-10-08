@@ -1,0 +1,100 @@
+<odoo>
+    <record id="questionare_sale_form" model="ir.ui.view">
+        <field name="name">questionare_sale_form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="se_custom.view_order_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='po_desc']" position="after">
+                <field name="questionare_document" widget="many2many_tags" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="sent_questionaire_form" model="ir.ui.view">
+        <field name="name">sent_questionaire_form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_cancel']" position="after">
+                <button class="btn-primary" name="send_questionaire" type="object" string="Send Questionaire" attrs="{'invisible': [('state', 'in', ('done','cancel'))]}"/>
+                <!--                <button class="btn-primary" name="alert_mail_expiration" type="object" string="Send alert message"/>-->
+            </xpath>
+        </field>
+    </record>
+
+    <record id="email_questionaire_send" model="mail.template">
+        <field name="name">Questionaires</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="subject">"Questionaires"</field>
+        <field name="email_from">${(object.partner_id.email) | safe}</field>
+        <field name="partner_to">False</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="font-size: 13px;">
+                    Dear Sir/Ma’am ,
+                    <br/><br/>
+                    We are in receipt of your email and we thank you for the same.
+                    <br/>
+                    We require few additional details to finalize the effort and submit our techno-commercial proposal.
+                    <br/>
+                    Please find the attached a questionnaire, we request you to duly fill the same and send it back to
+                    us.
+                    <br/>
+                    % if user.signature
+                    <br/>
+                    ${user.signature | safe}
+                    % endif
+                </p>
+            </div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+
+    <record id="alert_questionaire_send" model="mail.template">
+        <field name="name">Questionaires reminder</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="subject">"Questionaires reminder"</field>
+        <field name="email_from">${(object.partner_id.email) | safe}</field>
+        <field name="partner_to">False</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="font-size: 13px;line-height: 2.0;">
+                    Dear Sir/Ma’am ,
+                    <br/>
+                    A gentle reminder to send us the duly filled questionnaire, so that we can submit our proposal on
+                    time.
+                    % if user.signature
+                    <br/>
+                    ${user.signature | safe}
+                    % endif
+                </p>
+
+            </div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <record id="alert_mail_id_pre_sales" model="ir.ui.view">
+        <field name="name">alert_mail_id_pre_sales</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="mail.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_setting_right_pane')]" position="inside">
+                <div>
+                    <label for="alert_id"/>:
+                    <field name="alert_id"/>
+
+                </div>
+                <!--                <div class="text-muted" id="alert_id">-->
+                <!--                    <field name="alert_id"/>-->
+
+                <!--                </div>-->
+
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

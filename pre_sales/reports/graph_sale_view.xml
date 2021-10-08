@@ -1,0 +1,80 @@
+<odoo>
+    <record id="view_months_proposal_graph" model="ir.ui.view">
+        <field name="name">view_months_proposal_graph</field>
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <graph string="Sales proposal month wise Analysis" stacked="True" sample="1" disable_linking="1">
+                <field name="date" type="row" interval="month"/>
+                <field name="pro_posals"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_order_proposal_graph" model="ir.ui.view">
+        <field name="name">view_order_proposal_graph</field>
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <graph string="Proposal Wise Orders Analysis" stacked="True" sample="1" disable_linking="1">
+                <field name="pro_posals" type="row"/>
+                <field name="order_id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_months_product_graph" model="ir.ui.view">
+        <field name="name">view_months_product_graph</field>
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <graph string="Monthly Sales Prosposal Analysis" stacked="True" sample="1" disable_linking="1">
+                <field name="product_id" type="col"/>
+                <field name="order_id" type="measure"/>
+                <field name="date" interval="month"/>
+            </graph>
+        </field>
+    </record>
+
+
+    <record id="action_month_proposal_report" model="ir.actions.act_window">
+        <field name="name">Sales Proposal Month Wise Analysis</field>
+        <field name="res_model">sale.report</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="view_months_proposal_graph"/>
+        <field name="search_view_id" ref="sale.view_order_product_search"/>
+        <field name="context">{'search_default_Sales':1, 'group_by_no_leaf':1,'group_by':[]}</field>
+    </record>
+    <record id="action_order_proposal_report" model="ir.actions.act_window">
+        <field name="name">Sales proposal based on order Analysis</field>
+        <field name="res_model">sale.report</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="view_order_proposal_graph"/>
+        <field name="search_view_id" ref="sale.view_order_product_search"/>
+        <field name="context">{'search_default_Sales':1, 'group_by_no_leaf':1,'group_by':[]}</field>
+    </record>
+    <record id="action_months_product_report" model="ir.actions.act_window">
+        <field name="name">Sales based on product Analysis</field>
+        <field name="res_model">sale.report</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="view_months_product_graph"/>
+        <field name="search_view_id" ref="sale.view_order_product_search"/>
+        <field name="context">{'search_default_Sales':1, 'group_by_no_leaf':1,'group_by':[]}</field>
+    </record>
+
+    <menuitem id="sale.menu_report_product_all"
+              name="Monthly Sales Prosposal"
+              action="action_month_proposal_report"
+              parent="sale.menu_sale_report"
+              sequence="1"/>
+    <menuitem id="menu_report_order_proposal"
+              name="Proposal Wise Orders"
+              action="action_order_proposal_report"
+              parent="sale.menu_sale_report"
+              sequence="2"/>
+
+    <menuitem id="menu_report_months_product"
+              name="Monthly Product Wise Sale"
+              action="action_months_product_report"
+              parent="sale.menu_sale_report"
+              sequence="3"/>
+
+
+</odoo>

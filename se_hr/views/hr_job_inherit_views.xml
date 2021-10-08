@@ -1,0 +1,149 @@
+<odoo>
+
+    <record id="hr_job_inherit_view" model="ir.ui.view">
+        <field name="name">hr_job_inherit_view</field>
+        <field name="model">hr.job</field>
+        <field name="inherit_id" ref="hr.view_hr_job_form"/>
+        <field name="arch" type="xml">
+            <field name="state" position="replace">
+                <field name="state" widget="statusbar" statusbar_visible="new,recruit,open"/>
+            </field>
+            <field name="user_id" position="after">
+                <field name="hiring_mangs"/>
+            </field>
+            <field name="user_id" position="attributes">
+                <attribute name="attrs">
+                    {'required':True}
+                </attribute>
+            </field>
+            <field name="no_of_recruitment" position="attributes">
+                <attribute name="attrs">
+                    {'required':True}
+                </attribute>
+            </field>
+            <field name="address_id" position="attributes">
+                <attribute name="attrs">
+                    {'required':True}
+                </attribute>
+            </field>
+            <field name="department_id" position="attributes">
+                <attribute name="attrs">
+                    {'required':True}
+                </attribute>
+            </field>
+            <field name="company_id" position="attributes">
+                <attribute name="attrs">
+                    {'required':True}
+                </attribute>
+            </field>
+            <button name="set_open" position="after">
+                <button name="state_change" string="Approve" type="object" class="oe_highlight"
+                        groups="se_hr.group_HR_hod_user" attrs="{'invisible':[('state','!=','new')]}"/>
+            </button>
+            <xpath expr="//page[1]" position="replace">
+                <page string="Job Description">
+                    <div>
+                        <label for="description"/>
+                        <field name="description"/>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="survey_form_hide_inherit" model="ir.ui.view">
+        <field name="name">survey_form_hide_inherit</field>
+        <field name="model">hr.job</field>
+        <field name="inherit_id" ref="hr_recruitment_survey.hr_job_survey_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//label[@for='survey_id']" position="replace">
+
+            </xpath>
+            <xpath expr="/form//div[hasclass('o_row')]" position="attributes">
+                <attribute name="invisible">1</attribute>
+                <!--                <div groups="survey.group_survey_user" class="o_row" invisible="1">-->
+                <!--                    <button string="Display Interview Form" name="action_print_survey" type="object"-->
+                <!--                            attrs="{'invisible':[('survey_id','=',False)]}" class="oe_link"/>-->
+                <!--                </div>-->
+            </xpath>
+
+
+        </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="hr_recruitment.action_hr_job_config">
+        <field name="name">Job Positions</field>
+        <field name="res_model">hr.job</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('hr.view_hr_job_tree')}),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('hr.hr_job_view_kanban')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('hr.view_hr_job_form')})]"/>
+        <field name="domain">[('state','!=','new')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Ready to recruit more efficiently?
+            </p>
+            <p>
+                Let's create a job position.
+            </p>
+        </field>
+    </record>
+    <record id="hr.action_hr_job" model="ir.actions.act_window">
+        <field name="name">Job Positions</field>
+        <field name="res_model">hr.job</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="hr.view_job_filter"/>
+        <field name="domain">[('state','!=','new')]</field>
+        <field name="context">{"search_default_Current":1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Ready to recruit more efficiently?
+            </p>
+            <p>
+                Let's create a job position.
+            </p>
+        </field>
+    </record>
+    <record id="action_hr_new_job" model="ir.actions.act_window">
+        <field name="name">Job Positions</field>
+        <field name="res_model">hr.job</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="hr.view_job_filter"/>
+        <field name="domain">[('state','=','new')]</field>
+        <field name="context">{"search_default_Current":1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Ready to recruit more efficiently?
+            </p>
+            <p>
+                Let's create a job position.
+            </p>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="hr_recruitment.action_hr_job">
+        <field name="name">Job Positions</field>
+        <field name="res_model">hr.job</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="domain">[('state','!=','new')]</field>
+        <field name="view_id" ref="hr_recruitment.view_hr_job_kanban"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Ready to recruit more efficiently?
+            </p>
+            <p>
+                Let's create a job position.
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="menu_hr_recruitment_new_approve" action="action_hr_new_job" name="Job Position needs to be approved"
+              parent="hr_recruitment.menu_hr_recruitment_configuration"
+              sequence="200"/>
+    <!--<menuitem id="menu_hr_recruitment_new_approve" action="action_hr_new_job" name="Job Position needs to be approved" parent="hr.menu_human_resources_configuration"-->
+    <!--        sequence="200"/>-->
+
+</odoo>

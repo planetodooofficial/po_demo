@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pms_analytic_tree_view" model="ir.ui.view">
+        <field name="name">pms_analytic_tree_view</field>
+        <field name="model">okr.master</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="int_rating" invisible="1"/>
+                <field name="manager_int_rating"/>
+                <field name="emp_int_rating"/>
+                <field name="department"/>
+                <field name="manager"/>
+                <field name="percentages" sum="Total percentages" widget="percentage"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pms_analytic_filter" model="ir.ui.view">
+        <field name="name">pms_analytic_filter</field>
+        <field name="model">okr.master</field>
+        <field name="arch" type="xml">
+            <search string="Okrs">
+                <group expand="0" string="Group By">
+                    <filter string="Quarters" name="quarters" domain="[]" context="{'group_by': 'quarters'}"/>
+                    <filter string="Manager Ratings" name="manager_ratings" domain="[]" context="{'group_by': 'manager_int_rating'}"/>
+                    <filter string="Employee Ratings" name="employee_ratings" domain="[]" context="{'group_by': 'emp_int_rating'}"/>
+                    <filter string="Manager Wise" name="manager_wise" domain="[]" context="{'group_by': 'manager'}"/>
+                    <filter string="Department Wise" name="department_wise" domain="[]" context="{'group_by': 'department'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="pms_analytic_view_action" model="ir.actions.act_window">
+        <field name="name">PMS Analytics</field>
+        <field name="res_model">okr.master</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="pms_analytic_tree_view"/>
+        <field name="search_view_id" ref="pms_analytic_filter"/>
+    </record>
+
+    <menuitem name="PMS Analytic View" action="pms_analytic_view_action" id="pms_analytic_view_menu_item"
+              parent="okr_parent_menu"/>
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_analytics" model="ir.ui.view">
+        <field name="name">hr.analytics.form</field>
+        <field name="model">hr.analytics</field>
+        <field name="arch" type="xml">
+            <form string="HR Analytics Report">
+                <group col="4" colspan="6">
+                    <field name="state" invisible="1"/>
+                    <field name="file_name" invisible="1"/>
+                    <div states="choose">
+                        <group>
+                            <field name="filters" widget="radio"/>
+                        </group>
+                        <group>
+                            <field name="teams" widget="many2many_tags" attrs="{'invisible':[('filters','!=','team')] ,
+                            'required':[('filters','=','team')]}"/>
+                            <field name="source" widget="many2many_tags" attrs="{'invisible':[('filters','!=','source')] ,
+                            'required':[('filters','=','source')]}"/>
+                            <field name="position" widget="many2many_tags" attrs="{'invisible':[('filters','!=','position')] ,
+                            'required':[('filters','=','position')]}"/>
+                            <field name="recruiter" widget="many2many_tags" attrs="{'invisible':[('filters','!=','recruiter')] ,
+                            'required':[('filters','=','recruiter')]}"/>
+                        </group>
+                    </div>
+                    <div states="get">
+                        <field name="data" readonly="1" filename="file_name"/>
+                    </div>
+                </group>
+                <footer states="choose">
+                    <button name="print_hr_analytics" string="Print" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_analytics_report" model="ir.actions.act_window">
+        <field name="name">HR Analytics Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.analytics</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_hr_applicant" />
+    </record>
+
+    <menuitem name="HR Analytic" id="hr_analytics_report" action="action_hr_analytics_report" parent="hr_recruitment.report_hr_recruitment" sequence="50"/>
+</odoo>

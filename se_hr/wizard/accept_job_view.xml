@@ -1,0 +1,23 @@
+<odoo>
+
+
+<record id="approve_message_wizard_form" model="ir.ui.view">
+    <field name="name">approve_message_wizard_form</field>
+    <field name="model">approve.message.wizard</field>
+    <field name="arch" type="xml">
+        <form>
+            <p>
+                Thanks for the Approval
+            </p>
+            <footer>
+                <button name="action_close" string="Ok" type="object" default_focus="1" class="oe_highlight"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+
+
+
+
+</odoo>

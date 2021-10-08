@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+"access_hr_candidate_communication","hr.candidate.communication","model_hr_candidate_communication","base.group_user",1,1,1,1
+"access_acitivity_name","activity.name","model_activity_name","base.group_user",1,1,1,1
+"access_sales_milestone","sales.milestone","model_sales_milestone","base.group_user",1,1,1,1

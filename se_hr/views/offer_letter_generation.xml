@@ -1,0 +1,461 @@
+<odoo>
+    <template id="offer_letter_layout">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <t t-call="se_hr.offer_letter_header">
+            <t t-raw="0"/>
+        </t>
+
+    </template>
+    <template id="offer_letter_header">
+        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+            <div class="o_boxed_header" style="border-bottom:3px solid	#C0C0C0;">
+                <div class="row mb8">
+                    <div class="col-6">
+                        <!--                        <h4 class="mt0" t-field="company.report_header"/>-->
+                        <div name="company_address" class="float-left mb4">
+                            <img src="/se_hr/static/img/img_logo_hr.png" style="width:140px;height:130px;"/>
+
+                        </div>
+                    </div>
+                    <div class="col-6 text-right mb4">
+                        SecurEyes Techno Services Pvt. Ltd.
+                        <br/>
+                        # 3S, 3rd Floor, 51/27, Swamy Towers
+                        <br/>
+                        Chinapanahalli, Outer Ring Road,
+                        <br/>
+                        Bangalore - 560037
+                        <br/>
+                        CIN Number: U72900KA2006PTC040519
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div t-attf-class="article o_report_layout_boxed o_company_#{company.id}_layout"
+             t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <div class="pt-5">
+                <t t-call="web.address_layout"/>
+            </div>
+            <t t-raw="0"/>
+        </div>
+
+        <div t-attf-class="footer o_boxed_footer o_company_#{company.id}_layout">
+            <div style="width: 100%; display: table;border-color:#0075B0;border-top:none;">
+                <div style="text-align:center;">
+                    <h3 style="background-color: grey;color: white;width: 100%;text-align:center;">Infusing
+                            security
+                    </h3>
+                    <img src="/pre_sales/static/img/phone.png" style="width:30px;height:30px;"/>
+                    +91-80-41264078 , 41612612
+                    ;email: info@secureyes.net
+                    <br/>
+                    www.secureyes.net
+                </div>
+
+            </div>
+        </div>
+    </template>
+
+    <template id="pdf_offer_letter_receipt" name="Offer Letter">
+        <t t-call="web.html_container">
+            <p style="page-break-after:always;"/>
+            <t t-call="se_hr.offer_letter_layout">
+
+                <t t-foreach="docs" t-as="o">
+                    <body>
+                        <p style="text-align:right;width:89%;">Date:
+                            <t t-esc="(datetime.date.today()).strftime('%d-%B-%Y')"/>
+                        </p>
+                        <br/>
+                        <br/>
+                        <p>
+                            <left>
+                                <p>To,
+                                    <br/>
+                                    <t t-if="o.cand_name.partner_name">
+                                        <t t-esc="o.cand_name.partner_name"/>
+                                    </t>
+                                    <br/>
+                                    <t t-if="o.street">
+                                        <t t-esc="o.street"/>
+                                    </t>
+                                    <br/>
+                                    <t t-if="o.city">
+                                        <t t-esc="o.city"/>
+                                    </t>
+                                    ,
+                                    <t t-if="o.state_id.name">
+                                        <t t-esc="o.state_id.name"/>
+                                    </t>
+                                    -
+                                    <t t-if="o.zip">
+                                        <t t-esc="o.zip"/>
+                                    </t>
+                                </p>
+                            </left>
+                        </p>
+                        <br/>
+
+                        <p t-if="o.cand_name.partner_name">Dear
+
+                            <t t-esc="o.cand_name.partner_name"/>,
+                        </p>
+                        <p style="text-align:justify;line-height:1.7;">We are pleased to offer you the position of
+
+                            <b>"
+                                <t t-if="o.job_id.name">
+                                    <t t-esc="o.job_id.name"/>
+                                </t>
+                                "
+                            </b>
+                            with our organization and your joining will be on
+                            or before
+                            <b>
+                                <t t-if="o.date_of_join">
+                                    <t t-esc="(o.date_of_join).strftime('%d-%B-%Y')"/>
+                                </t>
+                            </b>
+                            with an annual CTC of
+                            <b>Rs.
+                                <t t-if="o.ctcs">
+                                    <t t-esc="o.ctcs"/>
+                                </t>
+                                /- (<t t-esc="ctc_words"/>)
+                            </b>
+                            Your current base location will be
+                            <t t-if="o.job_location">
+                                <t t-esc="o.job_location"/>
+                            </t>
+                            with
+                            domestic and/or overseas project travel/relocation as per business requirements.
+                        </p>
+                        <p style="text-align:justify;line-height:1.7;">A detailed appointment letter will be issued on
+                            actual date of your joining the organization.
+                            Your
+                            offer has been made based on the information furnished by you. However, if there is a
+                            discrepancy in
+                            the
+                            copies of documents or certificates given by you as a proof of above, we retain the right to
+                            revoke
+                            the offer.
+                        </p>
+                        <p style="text-align:justify;line-height:1.7;">
+                            <b>
+                                <u>Please confirm your acceptance of this offer latest by
+
+                                    <t
+                                            t-esc="(datetime.date.today()+datetime.timedelta(1)).strftime('%d-%B-%Y')"/>
+                                    .
+                                </u>
+                            </b>
+                        </p>
+                        <p style="text-align:justify;line-height:1.7;">
+                            We wish you a long and rewarding career with SecurEyes.
+                        </p>
+                        <p style="text-align:justify;line-height:1.7;">
+                            Please sign and return the duplicate copy of this letter or click on the accept button in
+                            the
+                            email as a token
+                            of
+                            acceptance
+                            <p>
+                                For SecurEyes Techno Services Pvt. Ltd.
+                            </p>
+                        </p>
+                    </body>
+                </t>
+                <p style="page-break-after:always;"/>
+                <head>
+                    <style>
+                        table,th, td {
+                        border: 1px solid black;
+                        border-collapse: collapse;
+                        padding: 5px;
+                        text-align: left;
+                        }
+                        ol {
+                        margin-left: 20px;
+                        }
+
+                    </style>
+                </head>
+                <body>
+                    <br/>
+                    <h5>
+                        <center>
+                            <b>Salary Annexure</b>
+                        </center>
+                    </h5>
+                    <table style="width:100%;">
+                        <tr>
+                            <td>
+                                <b>COMPENSATION CATEGORY</b>
+                            </td>
+                            <td>
+                                <b>MONTHLY</b>
+                            </td>
+                            <td>
+                                <b>ANNUAL</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">FIXED EARNING A</th>
+                        </tr>
+                        <tr>
+                            <td>Basic Salary
+                            </td>
+                            <td>
+                                <t t-esc="basic_month"/>
+                            </td>
+                            <td>
+                                <t t-esc="basic_annual"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>HRA
+                            </td>
+                            <td>
+                                <t t-esc="hra_month"/>
+                            </td>
+                            <td>
+                                <t t-esc="hra_annual"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Transport Allowance
+                            </td>
+                            <td>
+                                <t t-esc="trans_allow_month"/>
+                            </td>
+                            <td>
+                                <t t-esc="trans_allow_annuals"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Medical Allowance
+                            </td>
+                            <td>
+                                <t t-esc="medical_allow_month"/>
+                            </td>
+                            <td>
+                                <t t-esc="medical_allow_annuals"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Other Allowance
+                            </td>
+                            <td>
+                                <t t-esc="other_allow_month"/>
+                            </td>
+                            <td>
+                                <t t-esc="other_allow_annual"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Statutory Bonus
+                            </td>
+                            <td>
+                                <t t-esc="statutory_bonus_month"/>
+                            </td>
+                            <td>
+                                <t t-esc="statutory_bonus_annuals"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>TOTAL A</b>
+                            </td>
+                            <td>
+                                <b>
+                                    <t t-esc="total_values_month"/>
+                                </b>
+                            </td>
+                            <td>
+                                <b>
+                                    <t t-esc="total_values_annual"/>
+                                </b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">PERFORMANCE LINKED BONUS B</th>
+                        </tr>
+                        <tr>
+                            <td>PLB*
+                            </td>
+                            <td>
+                                <t t-esc="plb_month"/>
+                            </td>
+                            <td>
+                                <t t-esc="plb_annuals"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <b>A+B</b>
+                            </td>
+                            <td>
+                                <b>
+                                    <t t-esc="total_a_b_month"/>
+                                </b>
+                            </td>
+                            <td>
+                                <b>
+                                    <t t-esc="total_a_b_annual"/>
+                                </b>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th colspan="3">RETIRALS C
+                            </th>
+                        </tr>
+
+                        <tr>
+                            <td>PF Employer Contribution
+                            </td>
+                            <td>
+                                <t t-esc="pf_month"/>
+                            </td>
+                            <td>
+                                <t t-esc="pf_annuals"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Gratuity **
+                            </td>
+                            <td></td>
+                            <td>
+                                <t t-esc="grautity"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <b>A+B+C</b>
+                            </td>
+                            <td>
+                                <b>
+                                    <t t-esc="total_a_b_c_month"/>
+                                </b>
+                            </td>
+                            <td>
+                                <b>
+                                    <t t-esc="total_a_b_c_annual"/>
+                                </b>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th colspan="3">BENEFITS D</th>
+                        </tr>
+                        <t t-if="certi_allows">
+                            <tr>
+                                <td>Certification Allowance**
+                                </td>
+                                <td></td>
+                                <td>
+                                    <t t-esc="certi_allows"/>
+                                </td>
+                            </tr>
+                        </t>
+
+                        <tr>
+                            <td>Medical Insurance***
+                            </td>
+                            <td></td>
+                            <td>
+                                <t t-esc="medical_allows"/>
+                            </td>
+                        </tr>
+
+                        <t t-if="join_in_bonus">
+                            <tr>
+                                <td>
+                                    <b>JOINING BONUS E</b>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <t t-esc="join_in_bonus"/>
+                                </td>
+                            </tr>
+                        </t>
+
+                        <tr>
+                            <t t-if="join_in_bonus">
+                                <td>
+                                    <b>TOTAL CTC (A + B + C + D + E)</b>
+                                </td>
+                            </t>
+                            <t t-else="">
+                                <td>
+                                    <b>TOTAL CTC (A + B + C + D)</b>
+                                </td>
+                            </t>
+                            <td>
+                                <b>
+                                    <t t-esc="total_a_b_c_d_month"/>
+                                </b>
+                            </td>
+                            <td>
+                                <b>
+                                    <t t-esc="total_a_b_c_d_annual"/>
+                                </b>
+                            </td>
+
+                        </tr>
+
+
+                    </table>
+                    <p>
+                        <h5>Other Terms &amp; Conditions:</h5>
+
+                        <ol>
+                            <li>TDS (Tax Deduction at Source) PF (Provident Fund) and PT (Professional Tax) will
+                                be deducted monthly as applicable.
+                            </li>
+                            <li>Performance linked Bonus will be paid based on the performance half yearly.</li>
+                            <li>Group Medical Coverage (GMC) is for self and family.
+                                Family includes spouse and 2 dependent children and
+                                parents.
+                            </li>
+                            <t t-if="docs.clause">
+                                <li>
+                                    <t t-esc="docs.clause"/>
+                                </li>
+                            </t>
+                        </ol>
+
+                        <img src="/se_hr/static/img/signature.png" style="width:80px;height:80px;"/>
+                        <br/>
+                        Uma Pendyala
+
+                    </p>
+
+                </body>
+
+            </t>
+        </t>
+    </template>
+</odoo>

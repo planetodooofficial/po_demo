@@ -1,0 +1,11 @@
+<odoo>
+
+    <record id="action_interview_sheet_receipt" model="ir.actions.report">
+        <field name="name">Interview Rating Sheet</field>
+        <field name="model">interview.sheet</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">se_hr.pdf_interview_sheet_receipt</field>
+        <field name="binding_model_id" ref="model_interview_sheet"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

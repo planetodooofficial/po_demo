@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+"access_rights_master","access.rights.master","model_access_rights_master","base.group_user",1,1,1,1
+"access_interview_sheet","access.interview.sheet","model_interview_sheet","base.group_user",1,1,1,1
+"access_recruitment_stage_duration","access.recruitment.stage.duration","model_recruitment_stage_duration","base.group_user",1,1,1,1
+"access_hr_analytics","access.hr.analytics","model_hr_analytics","base.group_user",1,1,1,1
+"access_offer_letter","offer.letter","model_offer_letter","base.group_user",1,1,1,1
+"access_approve_message_wizard","approve.message.wizard","model_approve_message_wizard","base.group_user",1,1,1,1

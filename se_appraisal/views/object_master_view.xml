@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_objective_master_tree" model="ir.ui.view">
+        <field name="name">hr_objective_master_tree</field>
+        <field name="model">objective.master</field>
+        <field name="arch" type="xml">
+            <tree string="Objective Master">
+                <field name="objective_name"/>
+                <field name="key_skill_many" widget="many2many_tags"/>
+                <field name="objective_weight" widget="percentage"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_hr_form_objective_appraisal" model="ir.ui.view">
+        <field name="name">view_hr_form_objective_appraisal</field>
+        <field name="model">objective.master</field>
+        <field name="arch" type="xml">
+            <form string="Objective Master">
+                <sheet>
+                    <group>
+                        <field name="objective_name"/>
+                        <field name="key_skill_many" widget="many2many_tags"/>
+                        <field name="objective_weight" widget="percentage"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_key_skills_tree" model="ir.ui.view">
+        <field name="name">Key Results</field>
+        <field name="model">key.results</field>
+        <field name="arch" type="xml">
+            <tree string="Key Skills" editable="bottom">
+                <field name="key_skills"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_keys_results_action" model="ir.actions.act_window">
+        <field name="name">Key Results</field>
+        <field name="res_model">key.results</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="hr_objective_master_action" model="ir.actions.act_window">
+        <field name="name">Objective master</field>
+        <field name="res_model">objective.master</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem name="Key Results" action="hr_keys_results_action" id="key_result_menu" sequence="4"
+              parent="okr_parent_menu"/>
+
+    <menuitem name="Objectives" action="hr_objective_master_action" id="objective_master_menu_item_new" sequence="2"
+              parent="okr_parent_menu"/>
+
+
+</odoo>

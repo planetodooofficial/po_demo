@@ -1,0 +1,1434 @@
+<odoo>
+    <template id="proposal_layout">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <t t-call="pre_sales.proposal_header">
+            <t t-raw="0"/>
+        </t>
+
+    </template>
+    <template id="proposal_header">
+        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+            <div class="o_boxed_header">
+                <div class="row mb8">
+                    <div class="col-6">
+                        <h4 class="mt0" t-field="company.report_header"/>
+                        <div name="company_address" class="float-left mb4">
+                            Proposal for Application Security Audit of
+                            <span t-field="docs.application_name"/>
+                        </div>
+                    </div>
+                    <div class="col-6 text-right mb4">
+                        <img src="/pre_sales/static/img/img_logo.png" style="width:100px;height:80px;"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div t-attf-class="article o_report_layout_boxed o_company_#{company.id}_layout"
+             t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <div class="pt-5">
+                <!-- This div ensures that the address is not cropped by the header. -->
+                <t t-call="web.address_layout"/>
+            </div>
+            <t t-raw="0"/>
+        </div>
+
+        <div t-attf-class="footer o_boxed_footer o_company_#{company.id}_layout">
+            <div class="text-center">
+                <div class="float-left mb4">
+                    Confidential
+                </div>
+                <div t-field="company.report_footer"/>
+                <div t-if="report_type == 'pdf'">
+                    Page:
+                    <span class="page"/>
+                    /
+                    <span class="topage"/>
+                </div>
+            </div>
+        </div>
+    </template>
+
+
+    <template id="technical_proposal_receipt" name="Technical Proposal">
+        <t t-call="web.html_container">
+            <p style="page-break-after:always;"/>
+            <t t-call="pre_sales.proposal_layout">
+                <t t-foreach="docs" t-as="o">
+                    <head>
+                        <style>
+                            table {
+                            font-family: arial, sans-serif;
+                            border-collapse: collapse;
+                            width: 100%;
+                            font-size: 17px;
+                            }
+
+                            td, th {
+                            border: 1px solid #4682B4;
+                            text-align: left;
+                            padding: 8px;
+                            font-size: 17px;
+
+
+                            }
+
+                            tr:nth-child(even) {
+                            background-color: #c3f3ff;
+                            }
+                            #rcorners1 {
+                            border-radius: 25px;
+                            background-image: linear-gradient(to bottom right, #99ccff 12%, #ffffff 110%);
+                            border: 2px solid #6699ff;
+                            padding: 20px;
+                            width: 900px;
+                            height: 200px;
+                            font-size: 20px;
+                            }
+                            #rcorners2 {
+                            border-radius: 25px;
+                            background: linear-gradient(to bottom right, #99ccff 12%, #ffffff 110%);
+                            border: 2px solid #66ccff;
+                            padding: 20px;
+                            width: 900px;
+                            height: 220px;
+                            font-size: 20px;
+                            }
+                            #rcorners3 {
+                            border-radius: 25px;
+                            background: linear-gradient(to bottom left, #cccc00 12%, #ffffcc 98%);
+                            border: 2px solid #669900;
+                            padding: 20px;
+                            width: 900px;
+                            height: 630px;
+                            font-size: 20px;
+                            }
+                            #rcorners4 {
+                            border-radius: 25px;
+                            background: linear-gradient(to bottom right, #99ccff 12%, #ffffff 110%);
+                            border: 2px solid #6699ff;
+                            padding: 20px;
+                            width: 900px;
+                            height: 200px;
+                            font-size: 20px;
+                            }
+                            #rcorners5 {
+                            border-radius: 25px;
+                            background: linear-gradient(to bottom right, #99ccff 12%, #ffffff 110%);
+                            border: 2px solid #66ccff;
+                            padding: 20px;
+                            width: 900px;
+                            height: 250px;
+                            font-size: 20px;
+                            }
+                            #rcorners6 {
+                            border-radius: 25px;
+                            background: linear-gradient(to bottom left, #cccc00 12%, #ffffcc 98%);
+                            border: 2px solid #669900;
+                            padding: 20px;
+                            width: 900px;
+                            height: 200px;
+                            font-size: 20px;
+                            }
+                            ol,dl {
+                            margin-left: 20px;
+                            }
+                            p {
+                            text-align: justify;
+                            }
+                            img {
+                            display: block;
+                            margin-left: auto;
+                            margin-right: auto;
+                            }
+                            .center {
+                            margin-left: auto;
+                            margin-right: auto;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <p>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <table style="border: 3px solid #4682B4;margin-left: auto; margin-right: auto;">
+                                <tr>
+                                    <td style="font-size: 17px;">IT Security Consultancy</td>
+                                </tr>
+                                <tr style="background-color: #ffffff;">
+                                    <td style="font-size: 23px;">Proposal – Application Security Audit of
+                                        <t t-if="o.application_name">
+                                            <span t-field="o.application_name"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 17px;">
+                                        <t t-esc="(datetime.date.today()).strftime('%d-%m-%Y')"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <br/>
+                            <br/>
+
+                            <table style="margin-left: auto; margin-right: auto;border: 3px solid #4682B4;">
+                                <tr>
+                                    <td style="font-size: 17px;color: #c2c2ca3">SecurEyes hereby submits the techno
+                                        commercial proposal
+                                        for the application
+                                        security audit of
+                                        <t t-if="o.application_name">
+                                            <span t-field="o.application_name"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <br/>
+                            <br/>
+
+                            <table style="margin-left: auto; margin-right: auto;border: 3px solid #4682B4;">
+                                <tr>
+                                    <td style="font-size: 16px;text-align:left">
+                                        <b>SecurEyes Techno Services Pvt. Ltd.</b>
+                                        <br/>
+                                        4 th Floor,
+                                        <br/>
+                                        Delta Block,
+                                        <br/>
+                                        Sigma Soft Tech Park,
+                                        <br/>
+                                        Whitefield Main Road,
+                                        <br/>
+                                        Varathur Post,
+                                        <br/>
+                                        Bangalore – 560 066
+                                        <br/>
+                                        Ph:080-41612612/41264078
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </p>
+                        <p style="page-break-before:always;"/>
+                        <p>
+                            <p style="font-size: 25px;color:#4682B4">
+                                <u>Document History</u>
+                            </p>
+                            <table>
+                                <tr style="color:#F0FFFF;background-color: #4682B4;">
+                                    <th>Version</th>
+                                    <th>Author</th>
+                                    <th>Date</th>
+                                    <th>Approval</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <t t-if="o.version">
+                                            <span t-field="o.version"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="o.author">
+                                            <span t-field="o.author"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-esc="(datetime.date.today()).strftime('%d-%m-%Y')"/>
+                                    </td>
+                                    <td>
+                                        <t t-if="o.approval_need">
+                                            <span t-field="o.approval_need.name"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <p style="font-size: 17px;">
+                                This document and any revised pages are subject to document control. Please keep them
+                                up-to-date
+                                using the release notices from the distributor of the document.
+                            </p>
+                            <br/>
+                            <p style="font-size: 19px;">COPYRIGHT</p>
+                            <br/>
+                            <p style="text-align: center;font-size: 17px;">
+                                <i>Copyright © SecurEyes Techno Services Pvt. Ltd. All rights reserved.</i>
+                            </p>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <p style="font-size: 19px;">TRADEMARKS</p>
+                            <p style="text-align: center;font-size: 17px;">
+                                <i>Other product and corporate names may be trademarks of other companies and are used
+                                    only
+                                    for explanation and to the owners' benefit, without intent to infringe.
+                                </i>
+                            </p>
+                        </p>
+                        <!--                        <p style="page-break-before:always;"/>-->
+                        <!--                        <p>-->
+                        <!--                            <p style="font-size: 25px;color:#4682B4">-->
+                        <!--                                <u>About Us</u>-->
+                        <!--                            </p>-->
+                        <!--                            <p style="line-height: 2.0;font-size: 17px;">-->
+                        <!--                                SecurEyes, a global Cyber Security consulting services and product development-->
+                        <!--                                organization-->
+
+                        <!--                                was incorporated in the year 2006. The Company was established with the vision of-->
+                        <!--                                offering-->
+                        <!--                                quality services-->
+
+                        <!--                                in the field of information security and to ensure a secure environment for business-->
+                        <!--                                assets-->
+                        <!--                                such as-->
+                        <!--                                application, data and systems of mission critical Organizations. SecurEyes has been-->
+                        <!--                                evaluated as one of-->
+                        <!--                                the best Information security service providers in India by CERT-IN as per their latest-->
+                        <!--                                evaluation.-->
+
+                        <!--                            </p>-->
+                        <!--                            <br/>-->
+                        <!--                            <p style="line-height: 2.0;font-size: 17px;">-->
+                        <!--                                The organization's entire focus is on offering services in the information security-->
+                        <!--                                domain-->
+                        <!--                                and-->
+                        <!--                                the same is-->
+                        <!--                                further enhanced with an in-house dedicated research team, updating and implementing the-->
+                        <!--                                latest-->
+                        <!--                                developments in the industry. This gives us an edge over the others prevalent in the-->
+                        <!--                                industry.-->
+                        <!--                                The-->
+                        <!--                                methodology and process for our services are designed on the basis of the international-->
+                        <!--                                best-->
+                        <!--                                practices-->
+                        <!--                                and standards. The Company today has a joint experience of around 150 years of core-->
+                        <!--                                members-->
+                        <!--                                in-->
+                        <!--                                the-->
+                        <!--                                Information security domain.-->
+                        <!--                            </p>-->
+
+                        <!--                        </p>-->
+                        <p style="page-break-before:always;"/>
+                        <p>
+                            <p style="font-size: 25px;color:#4682B4">
+                                <u>Contents</u>
+                            </p>
+                            <div style="line-height: 2.0;font-size: 17px;text-align: justify;">
+                                <dl style="line-height: 2.0;font-size: 17px;text-align: justify;">
+                                    <dt>1 Executive Summary
+                                        .................................................................................................................................................................................4
+                                    </dt>
+                                    <dd style="text-indent: 50px;text-align: justify;">1.1
+                                        Preface......................................................................................................................................................................................................4
+                                    </dd>
+                                    <dd style="text-indent: 50px;text-align: justify;">1.2 SecurEyes Advantage
+                                        .........................................................................................................................................................................4
+                                    </dd>
+                                    <dd style="text-indent: 80px;text-align: justify;">1.2.1 Similar work performed in
+                                        the Govt. &amp;Defense Sectors
+                                        ..........................................................................................4
+                                    </dd>
+                                    <dd style="text-indent: 80px;text-align: justify;">1.2.2 Organizational Highlight
+                                        .......................................................................................................................................................6
+                                    </dd>
+                                    <dt>2 Project Details
+                                        .............................................................................................................................................................................................7
+                                    </dt>
+                                    <dd style="text-indent: 50px;text-align: justify;">2.1 Project Scope
+                                        ..........................................................................................................................................................................................7
+                                    </dd>
+                                    <dd style="text-indent: 50px;text-align: justify;">2.2 Data Requirement from the
+                                        client
+                                        .................................................................................................................................................7
+                                    </dd>
+                                    <dd style="text-indent: 50px;text-align: justify;">2.3 Other
+                                        Requirements.............................................................................................................................................................................8
+                                    </dd>
+                                    <dd style="text-indent: 50px;text-align: justify;">2.4 Project Activities
+                                        ...................................................................................................................................................................................8
+                                    </dd>
+                                    <dd style="text-indent: 50px;text-align: justify;">2.5 Project Deliverables
+                                        .............................................................................................................................................................................8
+                                    </dd>
+                                    <dt>3 Industry Credits
+                                        ...........................................................................................................................................................................................9
+                                    </dt>
+                                    <dd style="text-indent: 50px;text-align: justify;">3.1 Credibility
+                                        .................................................................................................................................................................................................9
+                                    </dd>
+                                    <dd style="text-indent: 50px;text-align: justify;">3.2 Testimonials
+                                        ..........................................................................................................................................................................................10
+                                    </dd>
+                                    <dd style="text-indent: 50px;text-align: justify;">3.3 Recent Government Clients
+                                        ...........................................................................................................................................................11
+                                    </dd>
+
+
+                                </dl>
+
+                            </div>
+
+                        </p>
+
+                        <p style="page-break-before:always;"/>
+                        <p>
+                            <p style="font-size: 25px;color:#4682B4">
+                                <b>1 Executive Summary</b>
+                            </p>
+                            <p style="font-size: 20px;color:#87CEEB">
+                                <b>1.1 Preface</b>
+                            </p>
+                            <p style="line-height: 2.0;font-size: 17px;">
+                                SecurEyes is to conduct the security audit of
+                                <t t-if="o.application_name">
+                                    <span t-field="o.application_name"/>
+                                </t>
+                                . The application
+                                security
+                                audit
+                                conducted by SecurEyes is an initiative to safeguard against online &amp; offline
+                                threats
+                                that
+                                allow attackers
+                                to compromise the security of applications. SecurEyes proposes consulting charges,
+                                detailed
+                                methodologies and other credentials towards the application security audit.
+                            </p>
+                            <br/>
+                            <p style="line-height: 2.0;font-size: 17px;">
+                                An application security audit conducted by SecurEyes is a method of evaluating the
+                                security
+                                of an
+                                online/offline application by simulating attacks by a malicious hacker. The testing is
+                                conducted under a
+                                controlled environment, with details being mutually agreed between the customer and
+                                SecurEyes. The
+                                process involves an active analysis of the system for any weaknesses, technical flaws or
+                                vulnerabilities
+                                that may lead to application compromise.
+                            </p>
+                            <br/>
+                            <p style="line-height: 2.0;font-size: 17px;">
+                                SecurEyes leverages the varied expertise of its team, industry standards and advanced
+                                techniques to offer
+                                a high-end application security review capable of detecting even very remote
+                                vulnerabilities
+                                in the target
+                                application
+                            </p>
+                            <br/>
+                            <p style="font-size: 20px;color:#87CEEB">
+                                <b>1.2 SecurEyes Advantage</b>
+                            </p>
+                            <p style="line-height: 2.0;font-size: 17px;">
+                                The following are some of the highlights of SecurEyes that stand as an advantage, in
+                                choosing SecurEyes
+                                as the preferred services partner for this project.
+                            </p>
+                            <br/>
+                            <p style="font-size: 20px;color:#87CEEB">
+                                <b>1.2.1 Similar work performed in the Govt. &amp; Defense Sectors</b>
+                            </p>
+                            <br/>
+                            <table>
+                                <tr style="color:#F0FFFF;background-color: #4682B4;">
+                                    <th>#</th>
+                                    <th>Client Name</th>
+                                    <th>#</th>
+                                    <th>Client Name</th>
+                                </tr>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>National Informatics Centre
+                                        (Department of Electronics &amp;
+                                        Information Technology), CGO
+                                        Complex, New Delhi
+                                    </td>
+                                    <td>2.</td>
+                                    <td>Ministry of Finance, New Delhi</td>
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>CERT-In (Department of Information
+                                        Technology), New Delhi
+                                    </td>
+                                    <td>4.</td>
+                                    <td>Ministry of Health &amp; Family Welfare, New Delhi</td>
+                                </tr>
+
+                            </table>
+
+                        </p>
+                        <p style="page-break-after:always;"/>
+                        <p>
+                            <table>
+                                <tr style="color:#F0FFFF;background-color: #4682B4;">
+                                    <th>#</th>
+                                    <th>Client Name</th>
+                                    <th>#</th>
+                                    <th>Client Name</th>
+                                </tr>
+                                <tr>
+                                    <td>5.</td>
+                                    <td>National Informatics Centre Services
+                                        nc. (Ministry of Communications &amp;
+                                        Information Technology), New Delhi
+                                    </td>
+                                    <td>6.</td>
+                                    <td>Directorate General of Civil Aviation, New Delhi</td>
+                                </tr>
+                                <tr>
+                                    <td>7.</td>
+                                    <td>Federation of Indian Chambers of
+                                    </td>
+                                    <td>8.</td>
+                                    <td>Railway Recruitment Board, Bangalore Railway Recruitment Board, Bangalore
+                                        Railway
+                                        Recruitment Board, Thiruvananthapuram
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>9.</td>
+                                    <td>Karnataka State Beverages Corporation Limited, Bangalore
+                                    </td>
+                                    <td>10.</td>
+                                    <td>Loknayak Bhawan, New Delhi</td>
+                                </tr>
+                                <tr>
+                                    <td>11.</td>
+                                    <td>Karnataka Antibiotics &amp; Pharmaceutical Ltd., Bangalore
+                                    </td>
+                                    <td>12.</td>
+                                    <td>Paryavaran Bhawan, New Delhi</td>
+                                </tr>
+                                <tr>
+                                    <td>13.</td>
+                                    <td>Karnataka Soaps &amp; Detergent Limited, Bangalore
+                                    </td>
+                                    <td>14.</td>
+                                    <td>Shram Shakti Bhawan, New Delhi</td>
+                                </tr>
+                                <tr>
+                                    <td>15.</td>
+                                    <td>Central Silk Board, Bangalore
+                                    </td>
+                                    <td>16.</td>
+                                    <td>Yojna Bhawan, New Delhi</td>
+                                </tr>
+                                <tr>
+                                    <td>17.</td>
+                                    <td>Tungabhadra Steel Products Ltd, Bangalore
+                                    </td>
+                                    <td>18.</td>
+                                    <td>Bureau of Pharmacy PSUs of India (BPPI), New Delhi</td>
+                                </tr>
+                                <tr>
+                                    <td>19.</td>
+                                    <td>Headquarters Naval Components, Port, Blair
+                                    </td>
+                                    <td>20.</td>
+                                    <td>Kerala Medical Services Corporation Ltd, Thiruvananthapuram</td>
+                                </tr>
+                                <tr>
+                                    <td>21.</td>
+                                    <td>INS Utkrosh, Port Blair
+                                    </td>
+                                    <td>22.</td>
+                                    <td>Directorate of Enforcement, Kochi</td>
+                                </tr>
+                                <tr>
+                                    <td>23.</td>
+                                    <td>Naval Ship Repair Yard, Port Blair
+                                    </td>
+                                    <td>24.</td>
+                                    <td>Centre for Good Governance, Hyderabad</td>
+                                </tr>
+                                <tr>
+                                    <td>25.</td>
+                                    <td>INS Adayar, Chennai
+                                    </td>
+                                    <td>26.</td>
+                                    <td>Department of Education, Lakshadeep</td>
+                                </tr>
+                                <tr>
+                                    <td>27.</td>
+                                    <td>PTC Kalpakkam, Chennai
+                                    </td>
+                                    <td>26.</td>
+                                    <td>Directorate of Transport, Goa</td>
+                                </tr>
+
+                            </table>
+
+                        </p>
+                        <p style="page-break-after:always;"/>
+                        <p>
+                            <p style="font-size: 20px;color:#87CEEB">
+                                <b>1.2.2 Organizational Highlight</b>
+                            </p>
+                            <br/>
+                            <br/>
+                            <p>
+                                <img src="/pre_sales/static/img/img_1_organization.png"
+                                     style="width:900px;height:950px;"/>
+                            </p>
+                        </p>
+                        <p style="page-break-after:always;"/>
+                        <p>
+                            <p style="font-size: 25px;color:#4682B4">
+                                <b>2 Project Details</b>
+                            </p>
+                            <p style="font-size: 20px;color:#87CEEB">
+                                <b>2.1 Project Scope</b>
+                            </p>
+                            <p style="font-size: 17px;">
+                                Following activities are proposed to be included in the project scope:
+                            </p>
+                            <p style="font-size: 17px;">
+                                <b>Phase-1:</b>
+                                Application Security Audit of
+                                <t t-if="o.application_name">
+                                    <span t-field="o.application_name"/>
+                                </t>
+                                :
+                            </p>
+                            <p style="font-size: 17px;">
+                                <t t-if="o.application_name">
+                                    <span t-field="o.application_name"/>
+                                </t>
+                                details
+                                <br/>
+                                ((
+                                <ul style="line-height: 2.0;font-size: 17px;">
+                                    <t t-if="o.no_of_login">
+                                        <li>Number of Login Modules:
+                                            <span t-field="o.no_of_login"/>
+                                        </li>
+                                    </t>
+                                    <t t-if="o.no_of_modules">
+                                        <li>Number of Modules:
+                                            <span t-field="o.no_of_modules"/>
+                                        </li>
+                                    </t>
+                                    <t t-if="o.total_no_of_pages">
+                                        <li>Total Number of Pages:
+                                            <span t-field="o.total_no_of_pages"/>
+                                        </li>
+                                    </t>
+                                    <t t-if="o.no_of_dynamic_pages">
+                                        <li>Number of Dynamic pages:
+                                            <span t-field="o.no_of_dynamic_pages"/>
+                                        </li>
+                                    </t>
+                                    <t t-if="o.no_of_application_role">
+                                        <li>Number of Application Roles:
+
+                                            <span t-field="o.no_of_application_role"/>
+                                        </li>
+                                    </t>
+                                    <t t-if="o.cms_present">
+                                        <li>Is CMS present:
+                                            <span t-field="o.cms_present"/>
+                                        </li>
+                                    </t>
+                                    <t t-if="o.payment_present">
+                                        <li>Is payment gateway present:
+                                            <span t-field="o.payment_present"/>
+                                        </li>
+                                    </t>
+
+                                </ul>
+                                ))
+                            </p>
+                            <p style="font-size: 17px;">
+                                <b>Phase-2:</b>
+                                <t t-if="o.no_audits">
+                                    <span t-field="o.no_audits"/>
+                                </t>
+                                rounds of Re-Audit/Compliance check to check the closure of the reported
+                                observations.
+
+                            </p>
+                            <p style="font-size: 19px;color:#87CEEB">
+                                <b>2.2 Data Requirement from the client</b>
+                            </p>
+                            <p>
+                                The following details are required from the execution of various project activities:
+                                <ol style="line-height: 2.0;font-size: 17px;">
+                                    <li>Access URLS of applications.</li>
+                                    <li>Remote connection for access in the webserver applications.</li>
+                                    <li>Documentation and walkthrough for the applications will be provided to the team
+                                        for
+                                        understanding the various functionalities.
+                                    </li>
+                                    <li>A single point of contact will be assigned for the application and if needed
+                                        interviews will be
+                                        scheduled with such individuals.
+                                    </li>
+                                    <li>All the modules in the application shall be functional. Any non-functional
+                                        modules
+                                        will be
+                                        omitted from the testing and accordingly documented.
+                                    </li>
+                                    <li>Enough context specific data will be included in the application roles and users
+                                        which are provided for testing. Where data is not available, the same will be
+                                        documented as a
+                                        limitation.
+                                    </li>
+                                    <li>All channel encryption should be disabled for the assessment.
+                                    </li>
+                                </ol>
+
+                            </p>
+
+                        </p>
+                        <p style="page-break-after:always;"/>
+                        <p>
+                            <p>
+                                <b style="font-size: 20px;color:#87CEEB">2.3 Other Requirements</b>
+                                <ol style="line-height: 2.0;font-size: 17px;">
+                                    <li>Work Order</li>
+                                    <li>Assignment of a single point of contact for project coordination.</li>
+                                </ol>
+
+                            </p>
+                            <br/>
+                            <br/>
+                            <p style="font-size: 20px;color:#87CEEB">
+                                <b>2.4 Project Activities</b>
+                            </p>
+                            <p style="font-size: 17px;">
+                                The following will be the various activities from SecurEyes:
+                                <ol style="line-height: 2.0;font-size: 17px;">
+                                    <span>
+                                        <li>
+                                            Conducting the 1 st level security audit of the web applications
+                                        </li>
+                                    </span>
+                                    <li>
+                                        Submission of Web application security audit reports along with recommendations.
+                                        The
+                                        development team needs to fix the vulnerabilities as per the detailed
+                                        recommendations in the
+                                        reports.
+                                    </li>
+                                    <li>
+                                        <t t-if="o.no_audits">
+                                            <span t-field="o.no_audits"/>
+                                        </t>
+                                        Re-audits for compliance check of the applications followed by submission of
+                                        the
+                                        re-audit reports.
+                                    </li>
+                                </ol>
+
+
+                            </p>
+                            <br/>
+                            <br/>
+                            <p style="font-size: 20px;color:#87CEEB">
+                                <b>2.5 Project Deliverables</b>
+                            </p>
+                            <p style="font-size: 17px;">
+                                The deliverables from the SecurEyes team would include:
+                                <div style="line-height: 2.0;">
+                                    <ol style="line-height: 2.0;font-size: 17px;">
+                                        <li>
+                                            Phase-1: Application Audit Report for the application which will include the
+                                            following
+                                            <ol style="line-height: 2.0;list-style-type:lower-alpha;">
+                                                <li>Comprehensive executive summary</li>
+                                                <li>Detailed Technical Report with criticality rating</li>
+                                                <li>Reports shall include business impact</li>
+                                                <li>Recommendations against each Vulnerabilities</li>
+                                            </ol>
+                                        </li>
+                                        <li>
+                                            Phase-2: Re-Audit Report for the application.
+                                        </li>
+                                    </ol>
+                                </div>
+
+                            </p>
+                        </p>
+                        <p style="page-break-after:always;"/>
+
+                        <!--                        <p style="font-size: 20px;color:#4682B4">-->
+                        <!--                            <b>2.6 Financials</b>-->
+                        <!--                        </p>-->
+                        <!--                        <p>-->
+                        <!--                            <table>-->
+                        <!--                                <tr style="color:#F0FFFF;background-color: #4682B4;">-->
+                        <!--                                    <th>S.No.</th>-->
+                        <!--                                    <th>Description of Work</th>-->
+                        <!--                                    <th>Amount in INR</th>-->
+                        <!--                                    <th>GST @ 18%</th>-->
+                        <!--                                    <th>Total Amount in INR</th>-->
+                        <!--                                </tr>-->
+                        <!--                                <t t-set="count" t-value="0"/>-->
+                        <!--                                <t t-foreach="o.sale_work_id" t-as="line">-->
+                        <!--                                    <t t-set="count" t-value="count+1"/>-->
+                        <!--                                    <tr>-->
+                        <!--                                        <td>-->
+                        <!--                                            <t t-esc="count"/>-->
+                        <!--                                        </td>-->
+                        <!--                                        <td>-->
+                        <!--                                            <t t-esc="line.description_work"/>-->
+                        <!--                                        </td>-->
+                        <!--                                        <td>-->
+                        <!--                                            <t t-esc="line.amount_inr"/>-->
+                        <!--                                        </td>-->
+                        <!--                                        <td>-->
+                        <!--                                            <t t-esc="line.amount_gst"/>-->
+                        <!--                                        </td>-->
+                        <!--                                        <td>-->
+                        <!--                                            <t t-esc="line.amount_total"/>-->
+                        <!--                                            <br/><b>(Rupees <t t-esc="line.amount_words"/> Only)</b>-->
+                        <!--                                        </td>-->
+                        <!--                                    </tr>-->
+
+                        <!--                                </t>-->
+
+                        <!--                            </table>-->
+
+                        <!--                        </p>-->
+                        <!--                        <br/>-->
+                        <!--                        <br/>-->
+                        <!--                        <p style="font-size: 20px;color:#4682B4">-->
+                        <!--                            <b>2.7 Terms &amp; Conditions</b>-->
+                        <!--                        </p>-->
+                        <!--                        <p>-->
+                        <!--                            <ol style="line-height: 2.0;font-size: 17px;">-->
+                        <!--                                <li>The above prices are inclusive of taxes.</li>-->
+                        <!--                                <li>Taxes are applicable as on the date of invoicing.</li>-->
+                        <!--                                <li>The project can commence within a reasonable time, based on mutual convenience of-->
+                        <!--                                    receipt of the work order.-->
+                        <!--                                </li>-->
+                        <!--                                <li>Payment to be made within two weeks of receipt of invoice</li>-->
+                        <!--                                <li>The above rates are valid for a period of 30 days.</li>-->
+                        <!--                                <li>Following is the payment structure for the project engagement:-->
+                        <!--                                    <ul style="line-height: 2.0;">-->
+                        <!--                                        <t t-foreach="o.sale_milestone" t-as="s">-->
+                        <!--                                            <li>-->
+                        <!--                                                <t t-set="milestone" t-value="int(s.milestone_perc*100)"/>-->
+                        <!--                                                <t t-esc="milestone"/>% of payment after-->
+                        <!--                                                <t t-esc="s.description"/>-->
+                        <!--                                            </li>-->
+                        <!--                                        </t>-->
+                        <!--                                    </ul>-->
+                        <!--                                </li>-->
+                        <!--                                <li>Phase-2 activity will be initiated only after confirmation by the client towards the-->
+                        <!--                                    resolution of all vulnerabilities as reported in the phase-1 reports.-->
+                        <!--                                </li>-->
+                        <!--                                <li>The project activity would be conducted remotely from-->
+                        <!--                                    <t t-if="o.shores">-->
+                        <!--                                        <span t-field="o.shores"/>-->
+                        <!--                                    </t>-->
+                        <!--                                    .-->
+                        <!--                                </li>-->
+                        <!--                                <li>Any further re- audits chargeable on pro-rata basis.</li>-->
+                        <!--                            </ol>-->
+                        <!--                        </p>-->
+                        <p style="page-break-before:always;"/>
+                        <p>
+                            <p style="font-size: 25px;color:#4682B4">
+                                <b>3 Industry Credits</b>
+                            </p>
+                            <p style="font-size: 20px;color:#87CEEB">
+                                <b>3.1 Credibility</b>
+                            </p>
+                            <p style="font-size: 17px;">
+                                <ol style="line-height: 2.0; font-size: 17px;">
+                                    <li>SecurEyes has provided its services across more than 1200 global
+                                        customers.
+                                    </li>
+                                    <li>Continuously performing Application security audits for the NIC
+                                        headquarters,
+                                        New
+                                        Delhi, for the
+                                        <br/>
+                                        past 14 years for more than 14,000+ applications. Our team of consultants
+                                        work
+                                        with
+                                        the Cyber
+                                        <br/>
+                                        Security Division, NIC HQ’s, New Delhi and provide certification for
+                                        applications to
+                                        be hosted on
+                                        <br/>
+                                        NIC servers.
+                                    </li>
+                                    <li>SecurEyes has conducted numerous Application Security Auditing Services for
+                                        Education Informatics Division,NIC, New Delhi.
+                                    </li>
+                                    <li>SecurEyes has conducted numerous Application Security Auditing Services for
+
+                                        <b>
+                                            NIC, Kerala State,
+                                        </b>
+                                        Thiruvananthapuram.
+                                    </li>
+                                    <li>SecurEyes conducted various specialized information security consulting
+                                        services
+                                        to
+                                        the <b>ING Bank</b> (now a part of Kotak Bank) for past 10 years. We have
+                                        provided
+                                        application security penetration testing, network security penetration
+                                        testing,
+                                        vulnerability assessments, architecture design consulting, training, etc.
+                                        for
+                                        ING.
+                                    </li>
+                                    <li>SecurEyes is the preferred security partner for multiple banks in India
+                                        &amp;
+                                        Middle-East
+                                    </li>
+                                    <li>Experienced and certified application security auditors</li>
+                                    <li>Turn-around time for re-audits is very fast</li>
+                                    <li>Recommendations aim at easy to implement mitigating controls from a business
+                                        perspective
+                                    </li>
+                                    <li>Our continuous research, paper publications, development of security tools
+                                        and
+                                        communication<br/>within the security community have enabled us to be fully
+                                        aware of
+                                        the challenges and issues that face today’s highly sensitized business
+                                        houses.
+                                    </li>
+                                    <li>SecurEyes has provided its services across more than 1200 global
+                                        customers.
+                                    </li>
+
+                                </ol>
+                            </p>
+                        </p>
+                        <p style="page-break-before:always;"/>
+                        <p>
+                            <p style="font-size: 20px;color:#87CEEB">
+                                <b>3.2 Testimonials</b>
+                            </p>
+                            <p>
+                                Following are a few testimonials from our clients.
+                            </p>
+                            <p id="rcorners1">It was a great pleasure working with you and your team.
+                                The support, performance and professionalism you showed assured ANB that doing business
+                                with
+                                SecurEyes was a right choice.
+                                Looking forward to working with you in future projects.
+                                <br/>
+                                <br/>
+                                <i>
+                                    <b>Mr. Ala Ibrahim Asali, Head of Information Security, Compliance Division, Arab
+                                        National Bank
+                                    </b>
+                                </i>
+                            </p>
+                            <br/>
+                            <p id="rcorners2">I thank you all (and of course your team who is working on the Embassy’s
+                                application audit) for
+                                your commendable and consistent efforts to pull the audit through. I will definitely
+                                recommend
+                                your company’s name for security audit related services to relevant authorities and to
+                                other GOI
+                                entities whoever approaches us for the same
+                                <br/>
+                                <br/>
+                                <i>
+                                    <b>Mr. Rajesh Parihar, Second Secretary, Embassy of India, Israel
+                                    </b>
+                                </i>
+                            </p>
+                            <br/>
+                            <p id="rcorners3">
+                                SecurEyes has been providing us a variety of services in
+                                the information security area
+                                since 2006 and it has been a great experience working with them all through our
+                                engagements. Besides ethical hacking services, we have been availing security
+                                consulting
+                                services from SecurEyes since 2010. This has helped us doing a detailed analysis of
+                                security
+                                status of out applications before implementing in production.
+                                <br/>
+                                <br/>
+                                Presentation and reporting is a key factor for customer
+                                understanding of the security
+                                paradigms and jargons. I think SecurEyes have been able to handle this effectively
+                                and their
+                                reporting formats along with detailed analysis reports are simple to go through, yet
+                                precise
+                                and clear in the status and expectations. They don’t stop with highlighting the
+                                risks but also
+                                try to help the developer teams with additional inputs for addressing those security
+                                issues.
+                                This, I feel, is a great value addition that I have not seen coming from larger
+                                companies.
+                                <br/>
+                                <br/>
+                                Their consultants are experienced, knowledgeable and also
+                                very approachable when
+                                we really are in need of them. Personally, I see the senior management team of
+                                SecurEyes
+                                being highly customer focused and I hardly get into situations wherein I need to
+                                handle
+                                escalations from my team. On the whole, a highly professional organization and are a
+                                very
+                                good partner to work with and always confidently recommend SecurEyes to anyone
+                                <br/>
+                                <br/>
+                                <i>
+                                    <b>Mr. C.V.G. Prasad, Former Chief Information Officer, ING Vysya Bank (a division
+                                        of Kotak Bank)
+                                    </b>
+                                </i>
+                            </p>
+
+                            <!--                        <img src="/pre_sales/static/img/img_1.png" style="width:70px;height:70px;"/>-->
+
+                        </p>
+                        <p style="page-break-before:always;"/>
+                        <p>
+                            <p id="rcorners4" style="text-align: justify;">
+                                SecurEyes provides a comprehensive training on information security in an engaging
+                                manner,
+                                which is very well-received by all. It’s highly recommended for engineering teams in
+                                product
+                                security
+                                <br/>
+                                <br/>
+                                <i>
+                                    <b>Mr. Kiran Devaiah, Senior Manager – Product Development, RSA</b>
+                                </i>
+                            </p>
+                            <p id="rcorners5">
+                                SecurEyes has provided Safelight Security with expert security and training delivery
+                                services for
+                                over five years. When Safelight’s multi-national customers require in-region delivery of
+                                application
+                                security training, we are confident that SecurEyes will deliver the most highly
+                                qualified
+                                professionals. SecurEyes is a Partner in the truest sense and has proven that they can
+                                be
+                                considered an extended part of our team
+                                <br/>
+                                <br/>
+                                <i>
+                                    <b>Safelight, USA</b>
+                                </i>
+                            </p>
+                            <p id="rcorners6">
+                                I was really happy with the way the project went. It was a pleasure working with you
+                                guys. Your
+                                processes &amp; documentation is excellent
+                                <br/>
+                                <br/>
+                                <i>
+                                    <b>Mr. Mark Curphey, Founding Member of OWASP &amp; Consulting Directory, Foundstone
+                                        Inc.
+                                    </b>
+                                </i>
+                            </p>
+                            <br/>
+
+                            <p style="font-size: 20px;color:#87CEEB">
+                                <b>3.3 Recent Government Clients</b>
+                            </p>
+                            <p style="font-size: 17px;">
+                                Following is the list of a few recent Government clients within India:
+                                <ul style="line-height: 2.0;">
+                                    <li>RailTel</li>
+                                    <li>MyGov Projects (mygov.in)</li>
+                                    <li>Ministry of Finance Govt. of India</li>
+                                    <li>Ministry of Environment &amp; Forests</li>
+                                    <li>Ministry of Labour and Employment</li>
+                                    <li>Ministry of Health &amp; Family Welfare</li>
+                                    <li>Directorate General of Civil Aviation</li>
+                                    <li>Planning Commission</li>
+                                    <li>FICCI (Federation of Indian Chambers of Commerce and Industry)</li>
+                                    <li>CERT-in (Computer Emergency Response Team)</li>
+                                    <li>National Informatics Center, Delhi</li>
+                                    <li>National Informatics Center, Goa</li>
+                                </ul>
+
+                            </p>
+                        </p>
+                        <p style="page-break-before:always;"/>
+                        <p style="font-size: 17px;">
+
+                            <ul style="line-height: 2.0;">
+                                <li>National Informatics Center, Jaipur</li>
+                                <li>National Informatics Center, Kerala</li>
+                                <li>Indian Postal Department</li>
+                                <li>Indian Navy</li>
+                                <li>INS Utkrosh, Andaman</li>
+                                <li>Centre For Good Governance</li>
+                                <li>Karnataka State Beverages Corporation Limited</li>
+                                <li>Aeronautical Development Agency</li>
+                                <li>LBSNAA ( the IAS Training Academy)</li>
+                                <li>Directorate of Transport, Goa</li>
+                                <li>Central Silk Board, Bengaluru</li>
+                                <li>Department of Fishery, Kerala</li>
+                                <li>IT Mission, Kerala</li>
+                                <li>Kerala Medical Services Corporation Limited</li>
+                                <li>Mysore Minerals</li>
+                                <li>Nano Mission</li>
+
+                            </ul>
+                        </p>
+                        <!--                        <p style="page-break-before:always;"/>-->
+
+                        <!--                        <p>-->
+                        <!--                            <p style="font-size: 20px;color:#87CEEB">-->
+                        <!--                                <b>3.4 Web Application Penetration Testing</b>-->
+                        <!--                            </p>-->
+                        <!--                            <p style="font-size: 19px;color:#87CEEB">-->
+                        <!--                                <b>3.4.1 Introduction</b>-->
+                        <!--                            </p>-->
+                        <!--                            <p style="line-height: 2.0;">-->
+                        <!--                                An application security assessment is the process of evaluating the strengths and-->
+                        <!--                                weakness of an-->
+                        <!--                                application. It also aims at testing the resilience of the application against malicious-->
+                        <!--                                attacks. The-->
+                        <!--                                methodology followed at SecurEyes is fool-proof and standardized so that each time the-->
+                        <!--                                testing is-->
+                        <!--                                conducted, the result is the same. The process is documented with steps clearly laid out-->
+                        <!--                                in the testplan.-->
+                        <!--                                The methodology is a structured process of evaluating the security of an application and-->
+                        <!--                                application code-->
+                        <!--                                against malicious hacker attacks with well defined inputs and outputs in each step of-->
+                        <!--                                the process. It-->
+                        <!--                                includes layered deliverables with deliverables in each assessment step. Finally a-->
+                        <!--                                consolidated report with-->
+                        <!--                                executing summary &amp; detailed findings is prepared and submitted.-->
+                        <!--                            </p>-->
+                        <!--                            <p style="font-size: 19px;color:#87CEEB">-->
+                        <!--                                <b>3.4.2 Assessment Steps</b>-->
+                        <!--                            </p>-->
+                        <!--                            <br/>-->
+                        <!--                            <br/>-->
+                        <!--                            <p>-->
+                        <!--                                <img src="/pre_sales/static/img/img_methodology.png" style="width:500px;height:500px;"/>-->
+                        <!--                            </p>-->
+                        <!--                        </p>-->
+                        <!--                        <p style="page-break-before:always;"/>-->
+
+                        <!--                        <p>-->
+                        <!--                            <p style="font-size: 19px;color:#87CEEB">-->
+                        <!--                                <b>3.4.3 Detailed Steps</b>-->
+                        <!--                            </p>-->
+                        <!--                            <p style="font-size: 18px;color:#c2000d">-->
+                        <!--                                <b>-->
+                        <!--                                    <i>1. Application &amp; Process Understanding</i>-->
+                        <!--                                </b>-->
+                        <!--                            </p>-->
+                        <!--                            <p style="line-height: 2.0;">-->
+                        <!--                                This is the very first step of the application security assessment. The aim of this step-->
+                        <!--                                is to gain an-->
+                        <!--                                understanding of the application in the following areas:-->
+                        <!--                                <ul style="line-height: 2.0;font-size: 17px;">-->
+                        <!--                                    <li>Understand the application architecture</li>-->
+                        <!--                                    <li>Understand the frameworks being used in the application development</li>-->
+                        <!--                                    <li>Gain information about any specific coding practices followed by the-->
+                        <!--                                        developers-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Gain an understanding of the security development lifecycle methodology followed-->
+                        <!--                                        by the-->
+                        <!--                                        development team, if any.-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Understand the various interfacing applications or other interfaces used in the-->
+                        <!--                                        application architecture-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Gain information about third party dll’s, code, legacy systems, etc. used in the-->
+                        <!--                                        application-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Determine the purpose of the application from a business perspective</li>-->
+                        <!--                                    <li>Understand the business goals that are fulfilled by the application</li>-->
+                        <!--                                    <li>Gauge the criticality of the application for the business</li>-->
+                        <!--                                    <li>Determine the entry &amp; exit points in the application</li>-->
+
+                        <!--                                </ul>-->
+                        <!--                            </p>-->
+                        <!--                            <p>-->
+                        <!--                                <b style="font-size: 18px;">Information Required from the Client</b>-->
+                        <!--                                <ol style="margin-left: 60px;line-height: 2.0;font-size: 17px;">-->
+                        <!--                                    <li>User, admin, operational guide / other documentation relevant to understand the-->
+                        <!--                                        application-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Discussion with technical point of contact or application owner for a walk-->
+                        <!--                                        thorugh of various-->
+                        <!--                                        implemented functionalities in the application-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Deployed application URL along with deployment information for the code</li>-->
+                        <!--                                    <li>Details of User roles &amp; two login credentials for each role</li>-->
+                        <!--                                    <li>Other application documents including architecture documents, low/high level-->
+                        <!--                                        design-->
+                        <!--                                        documents, technical specifications, coding standard guide, end-user guide,-->
+                        <!--                                        admin guide, etc-->
+                        <!--                                    </li>-->
+
+                        <!--                                </ol>-->
+                        <!--                            </p>-->
+                        <!--                            <p>-->
+                        <!--                                <b style="font-size: 18px;">Activities Performed</b>-->
+                        <!--                                <ol style="margin-left: 60px;line-height: 2.0;font-size: 17px;">-->
+                        <!--                                    <li>Gain a thorough understanding of the application using available documentation,-->
+                        <!--                                        application walk through etc.-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Interaction with Application owner/developers for understanding the various-->
+                        <!--                                        functionalities and services provided by the application-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Learning the application architecture through review of available-->
+                        <!--                                        documentation-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Understanding the interfacing and custom communication protocols if any</li>-->
+                        <!--                                    <li>Understanding different application modules</li>-->
+                        <!--                                </ol>-->
+                        <!--                            </p>-->
+                        <!--                        </p>-->
+
+                        <!--                        <p style="page-break-before:always;"/>-->
+
+                        <!--                        <p>-->
+                        <!--                            <p style="font-size: 18px;color:#c2000d">-->
+                        <!--                                <b>-->
+                        <!--                                    <i>2. Traffic Enumeration</i>-->
+                        <!--                                </b>-->
+                        <!--                            </p>-->
+                        <!--                            <p style="line-height: 2.0;font-size: 17px;">-->
+                        <!--                                This step involves enumeration of application traffic to helps us understand the-->
+                        <!--                                interaction of the client-->
+                        <!--                                and server components. The process is to break down the overall application interaction-->
+                        <!--                                into pairs of-->
+                        <!--                                requests and responses to perform an in-depth analysis of the traffic. This helps us-->
+                        <!--                                understand the-->
+                        <!--                                functionality provided by the application and its implementation on the client/server-->
+                        <!--                                side from a user-->
+                        <!--                                perspective.-->
+                        <!--                            </p>-->
+                        <!--                            <p>-->
+                        <!--                                <b style="font-size: 18px;">Activities Performed</b>-->
+                        <!--                                <ol style="margin-left: 60px;line-height: 2.0;font-size: 17px;">-->
+                        <!--                                    <li>Gathering traffic transmitting between client and server-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Figuring out ALL variables/parameters/form fields/hidden variables that are-->
+                        <!--                                        being sent by client-->
+                        <!--                                        onto the server-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Listing out the exact meaning of each variable to the web application</li>-->
+                        <!--                                    <li>Deriving risks posed by such user inputs</li>-->
+                        <!--                                    <li>Understanding the meaning of any client side enforcements of business rules done-->
+                        <!--                                        by the-->
+                        <!--                                        application-->
+                        <!--                                    </li>-->
+
+                        <!--                                </ol>-->
+                        <!--                            </p>-->
+                        <!--                            <p style="font-size: 18px;color:#c2000d">-->
+                        <!--                                <b>-->
+                        <!--                                    <i>3. Threat Profiling</i>-->
+                        <!--                                </b>-->
+                        <!--                            </p>-->
+                        <!--                            <p style="line-height: 2.0;font-size: 17px;">-->
+                        <!--                                The primary purpose of preparing a threat profile is to define the Attack Surface-->
+                        <!--                                (including-->
+                        <!--                                any third-party-->
+                        <!--                                or public or backend interfaces) and to list down all possible Threat Agents, threat-->
+                        <!--                                scenarios that maybe-->
+                        <!--                                possible. The aim is to also list down all the possible attack scenarios in terms of-->
+                        <!--                                business impact.-->
+                        <!--                                The preparation of an application threat profile requires a good understanding of the-->
+                        <!--                                business purpose of-->
+                        <!--                                the application. A detailed analysis of all inputs of this phase makes it easy in-->
+                        <!--                                defining-->
+                        <!--                                context of the-->
+                        <!--                                application to establish the business need and purpose of specific functionalities of-->
+                        <!--                                the-->
+                        <!--                                application to-->
+                        <!--                                enterprise. The process also helps to establish the business boundaries of the-->
+                        <!--                                application-->
+                        <!--                                context and-->
+                        <!--                                serves as a mechanism to identify all abuse cases.-->
+                        <!--                                <br/>-->
+                        <!--                                This step aims at listing possible threats in terms of business risks to the-->
+                        <!--                                application.-->
+                        <!--                                The following are-->
+                        <!--                                few of the indicative risks for a login application:-->
+                        <!--                                <ul style="line-height: 2.0;font-size: 17px;">-->
+                        <!--                                    <li>An attacker can log in without valid user credentials.-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>An attacker can perform an unauthorized operation impersonating an authenticated-->
+                        <!--                                        user.-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>An attacker can upload malicious files on to the server.</li>-->
+                        <!--                                    <li>An attacker can insert malicious scripts into the application leading to the-->
+                        <!--                                        hijacking of the logged- -->
+                        <!--                                        in administrator’s session.-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>An attacker can enumerate error messages to get back-end information.-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>An attacker can download the critical web configuration file to get the database-->
+                        <!--                                        user details.-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>One departmental user can manipulate the confidential documents posted in other-->
+                        <!--                                        departments.-->
+                        <!--                                    </li>-->
+
+                        <!--                                </ul>-->
+                        <!--                            </p>-->
+                        <!--                        </p>-->
+                        <!--                        <p style="page-break-before:always;"/>-->
+
+                        <!--                        <p>-->
+                        <!--                            <p>-->
+                        <!--                                <b style="font-size: 18px;">Activities Performed</b>-->
+                        <!--                                <ol style="margin-left: 60px;line-height: 2.0;font-size: 17px;">-->
+                        <!--                                    <li>Identifying the entry/exit points in the application-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Identifying all possible business risks-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Determining the projected imapact of each business risks on the business</li>-->
+                        <!--                                    <li>Preparing the Threat Profile</li>-->
+                        <!--                                </ol>-->
+                        <!--                            </p>-->
+                        <!--                            <p style="font-size: 18px;color:#c2000d">-->
+                        <!--                                <b>-->
+                        <!--                                    <i>4. Building Testcases</i>-->
+                        <!--                                </b>-->
+                        <!--                            </p>-->
+                        <!--                            <p style="line-height: 2.0;font-size: 17px;">-->
+                        <!--                                The next step involves building of test cases for exploiting the business risks-->
+                        <!--                                discovered in the above-->
+                        <!--                                step. Test cases are built for each of the identified risks. Each of the test cases-->
+                        <!--                                prepared includes:-->
+                        <!--                                <ul style="line-height: 2.0;font-size: 17px;">-->
+                        <!--                                    <li>Page Location (URL / Link)-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Variables</li>-->
+                        <!--                                    <li>Output value</li>-->
+                        <!--                                    <li>Affected business control</li>-->
+                        <!--                                </ul>-->
+                        <!--                                <p style="line-height: 2.0;font-size: 17px;">-->
+                        <!--                                    The test cases prepared are based on data collected through enumeration. The test-->
+                        <!--                                    cases-->
+                        <!--                                    adhere to the-->
+                        <!--                                    application security checklist and guidelines including OWASP.-->
+                        <!--                                </p>-->
+                        <!--                            </p>-->
+                        <!--                            <p>-->
+                        <!--                                <b style="font-size: 18px;">Activities Performed</b>-->
+                        <!--                                <ol style="margin-left: 60px;line-height: 2.0;font-size: 17px;">-->
+                        <!--                                    <li>Analyzing the client server traffic based on the possible risks in the threat-->
+                        <!--                                        profile-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Analyzing the GET/POST parameters-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Preparing a detailed testcase against each risk in the threat profile</li>-->
+
+                        <!--                                </ol>-->
+                        <!--                            </p>-->
+                        <!--                            <p style="font-size: 18px;color:#c2000d">-->
+                        <!--                                <b>-->
+                        <!--                                    <i>5. Pentest &amp; Verification</i>-->
+                        <!--                                </b>-->
+                        <!--                            </p>-->
+                        <!--                            <p style="line-height: 2.0;font-size: 17px;">-->
+                        <!--                                The test cases are executed to see if the application is vulnerable to an identified-->
+                        <!--                                business risk. The-->
+                        <!--                                auditor can take discretion to alter the logical path of testing if results are-->
+                        <!--                                interesting. After all the test-->
+                        <!--                                cases have been executed, the technical risk and business risks are mapped to identify-->
+                        <!--                                the “real” risks in-->
+                        <!--                                the application. A thorough verification of the results sieves out the findings which-->
+                        <!--                                may be a technical-->
+                        <!--                                risk but are of no business significance. Based on the final findings, we derive the-->
+                        <!--                                impact of each risk.-->
+                        <!--                            </p>-->
+                        <!--                            <p>-->
+                        <!--                                <b style="font-size: 18px;">Activities Performed</b>-->
+                        <!--                                <ol style="margin-left: 60px;line-height: 2.0;font-size: 17px;">-->
+                        <!--                                    <li>Carry out manual audit of all the application modules-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Carry out exploit simulation for vulnerabilities found in the application-->
+                        <!--                                        modules-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>Documenting the pentest steps alongwith screen shots</li>-->
+                        <!--                                    <li>Computing the DREAD values against each unsafe business risk</li>-->
+
+                        <!--                                </ol>-->
+                        <!--                            </p>-->
+                        <!--                        </p>-->
+                        <!--                        <p style="page-break-before:always;"/>-->
+
+                        <!--                        <p>-->
+                        <!--                            <p style="font-size: 18px;color:#c2000d">-->
+                        <!--                                <b>-->
+                        <!--                                    <i>6. Reporting</i>-->
+                        <!--                                </b>-->
+                        <!--                            </p>-->
+                        <!--                            <p style="line-height: 2.0;font-size: 17px;">-->
+                        <!--                                The final step involves preparation of a detailed report which appraises the management-->
+                        <!--                                of the business-->
+                        <!--                                risks identified in an application. It also details the technical findings along with-->
+                        <!--                                the mitigation strategy-->
+                        <!--                                to help the developers fix the problems. The following are few features of the reports-->
+                        <!--                                we submit:-->
+                        <!--                                <ul style="line-height: 2.0;font-size: 17px;">-->
+                        <!--                                    <li>No false positives</li>-->
+                        <!--                                    <li>Prioritized results</li>-->
+                        <!--                                    <li>Separate executive and technical sections</li>-->
+                        <!--                                    <li>Exposures described in terms of real business risk</li>-->
+                        <!--                                    <li>Resolution resource requirements</li>-->
+                        <!--                                    <li>Real-world recommendations</li>-->
+                        <!--                                </ul>-->
+                        <!--                                <p style="line-height: 2.0;font-size: 17px;" >-->
+                        <!--                                    The test cases prepared are based on data collected through enumeration. The test-->
+                        <!--                                    cases-->
+                        <!--                                    adhere to the application security checklist and guidelines including OWASP.-->
+                        <!--                                </p>-->
+                        <!--                            </p>-->
+                        <!--                            <p style="font-size: 17px;">-->
+                        <!--                                <b style="font-size: 18px;">Activities Performed</b>-->
+                        <!--                                <ol style="margin-left: 60px;line-height: 2.0;font-size: 17px;">-->
+                        <!--                                    <li>Preparing a detailed audit report with the following details-->
+                        <!--                                        <ol style="list-style-type:lower-alpha;">-->
+                        <!--                                            <li>Executive Summary for higher management</li>-->
+                        <!--                                            <li>Strengths of the application against known vulnerabilities</li>-->
+                        <!--                                            <li>Details of application vulnerabilities/holes discovered</li>-->
+                        <!--                                            <li>Step-by-step description of successful exploits</li>-->
+                        <!--                                        </ol>-->
+                        <!--                                    </li>-->
+
+                        <!--                                </ol>-->
+                        <!--                                <p style="font-size: 17px;">Mitigation strategies against exploits discovered</p>-->
+                        <!--                            </p>-->
+                        <!--                        </p>-->
+
+
+                    </body>
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

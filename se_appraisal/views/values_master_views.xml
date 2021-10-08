@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="hr_value_master_tree" model="ir.ui.view">
+        <field name="name">hr_value_master_tree</field>
+        <field name="model">value.master</field>
+        <field name="arch" type="xml">
+            <tree string="Values Master">
+                <field name="values_store"/>
+                <field name="value_weight" widget="percentage"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hr_values_form" model="ir.ui.view">
+        <field name="name">view_hr_values_form</field>
+        <field name="model">value.master</field>
+        <field name="arch" type="xml">
+            <form string="Values Master">
+                <sheet>
+                    <group>
+                        <field name="values_store"/>
+                        <field name="value_weight" widget="percentage"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_values_master_action" model="ir.actions.act_window">
+        <field name="name">Values Master</field>
+        <field name="res_model">value.master</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem name="Values" action="hr_values_master_action" id="values_menu_new_item_key"
+              parent="okr_parent_menu" sequence="5"/>
+</odoo>

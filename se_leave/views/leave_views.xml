@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_leave_form_inherited" model="ir.ui.view">
+        <field name="name">hr.leave.form.view</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='number_of_days']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="leave_type_form_inherited" model="ir.ui.view">
+        <field name="name">hr.leave.type.form.view</field>
+        <field name="model">hr.leave.type</field>
+        <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='validity_stop']" position="after">
+                <field name="pro_rata"/>
+                <field name="no_of_leaves_allowed"/>
+                <field name="monthly_leaves" attrs="{'invisible':[('pro_rata','=',False)]}"/>
+                <field name="carry_forward"/>
+                <field name="apply_at_a_time"/>
+                <field name="leaves_in_tenure"/>
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem
+            id="hr_holidays.menu_hr_holidays_report"
+            name="Reporting"
+            parent="hr_holidays.menu_hr_holidays_root"
+            groups="se_hr.group_HR_hod_user"
+            sequence="4"/>
+
+</odoo>

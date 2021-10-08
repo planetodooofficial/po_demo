@@ -1,0 +1,60 @@
+<odoo>
+
+    <record id="sale_confirm_view" model="ir.ui.view">
+        <field name="name">sale_confirm_view</field>
+        <field name="model">quotation.master</field>
+        <field name="arch" type="xml">
+            <form string="Quotation Confirm">
+                <group>
+                    <field name="no_days"/>
+                    <field name="project_manager"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="email_notification_send" model="mail.template">
+        <field name="name">New Sale Order</field>
+        <field name="model_id" ref="pre_sales.model_quotation_master"/>
+        <field name="subject">"New Sale Order"</field>
+        <field name="email_from">${(object.partner_id.email) | safe}</field>
+        <field name="partner_to">False</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="font-size: 13px;">
+                    <p>Dear Sir/Ma’am ,<br/><br/>
+                    Greetings from SecurEyes.<br/>
+                    Please find attached our proposal for the
+                        %if object.application_name
+                        ${object.application_name}
+                        % endif
+                        <br/>
+                    We are pleased to quote our most competitive rates for the same and we
+                        look forward to your early
+                        response.
+                    </p>
+                    <p>Please contact us, should you require any further details.</p>
+                    % if user.signature
+                    <br/>
+                    ${user.signature | safe}
+                    % endif
+                </p>
+            </div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+
+    <record id="action_sale_confirm" model="ir.actions.act_window">
+        <field name="name">Quotation Confirm</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">quotation.master</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_leave_report_form" model="ir.ui.view">
+        <field name="name">leave.report.form</field>
+        <field name="model">leave.report</field>
+        <field name="arch" type="xml">
+            <form string="Leave Reports">
+                <group col="4" colspan="6">
+                    <field name="state" invisible="1"/>
+                    <field name="file_name" invisible="1"/>
+                    <div states="choose">
+                        <label for="report_type" name="Report For: "/>
+                        <field name="report_type"/>
+                    </div>
+                    <div states="choose">
+                        <label for="date_from" name="From : " attrs="{'invisible':[('report_type','not in',('current_leave_req','leaves_taken'))],'required':[('date_to','!=',False)]}"/>
+                        <field name="date_from" attrs="{'invisible':[('report_type','not in',('current_leave_req','leaves_taken'))],'required':[('date_to','!=',False)]}"/>
+                        <label for="date_from" name="To : " attrs="{'invisible':[('report_type','not in',('current_leave_req','leaves_taken'))],'required':[('date_from','!=',False)]}"/>
+                        <field name="date_to" attrs="{'invisible':[('report_type','not in',('current_leave_req','leaves_taken'))],'required':[('date_from','!=',False)]}"/>
+                    </div>
+                    <!--                    <div states="choose">-->
+                    <!--                        <group>-->
+                    <!--                            <field name="filters" widget="radio"/>-->
+                    <!--                        </group>-->
+                    <!--                        <group>-->
+                    <!--                            <field name="teams" widget="many2many_tags" attrs="{'invisible':[('filters','!=','team')] ,-->
+                    <!--                            'required':[('filters','=','team')]}"/>-->
+                    <!--                            <field name="source" widget="many2many_tags" attrs="{'invisible':[('filters','!=','source')] ,-->
+                    <!--                            'required':[('filters','=','source')]}"/>-->
+                    <!--                            <field name="position" widget="many2many_tags" attrs="{'invisible':[('filters','!=','position')] ,-->
+                    <!--                            'required':[('filters','=','position')]}"/>-->
+                    <!--                            <field name="recruiter" widget="many2many_tags" attrs="{'invisible':[('filters','!=','recruiter')] ,-->
+                    <!--                            'required':[('filters','=','recruiter')]}"/>-->
+                    <!--                        </group>-->
+                    <!--                    </div>-->
+                    <div states="get">
+                        <field name="data" readonly="1" filename="file_name"/>
+                    </div>
+                </group>
+                <footer states="choose">
+                    <button name="print_leave_reports" string="Print" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_leave_report" model="ir.actions.act_window">
+        <field name="name">Leave Reports</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">leave.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_hr_leave" />
+    </record>
+
+    <menuitem name="Leave Reports" id="menu_leave_report" action="action_leave_report" parent="hr_holidays.menu_hr_holidays_report"/>
+</odoo>

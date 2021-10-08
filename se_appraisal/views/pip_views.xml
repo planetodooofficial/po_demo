@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pip_bip_form_view" model="ir.ui.view">
+        <field name="name">pip.bip.form.view</field>
+        <field name="model">pip.bip</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <field name="active" invisible="1"/>
+                    <button name="approve" class="oe_highlight" string="Approve" type="object" attrs="{'invisible':[('hide_approve','=',True)]}"/>
+                    <button name="submit" class="oe_highlight" string="Submit" type="object" attrs="{'invisible':['|',('hide_submit','=',True),('state','!=','hr_approved')]}"/>
+                    <button name="close_pip" class="oe_highlight" string="Close PIP/BIP" type="object" attrs="{'invisible':['|',('state','!=','reviewed'),('closure','=',False)]}"/>
+                    <button name="%(action_pip_meeting)d" string="Meetings" class="oe_stat_button oe_left"  icon="fa-pencil" type="action"
+                    attrs="{'invisible':[('state','not in',('hr_approved','reviewed'))]}">
+                    </button>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon"  title="Closed" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <group>
+                        <group>
+                            <field name="emp_id"/>
+                            <field name="designation"/>
+                            <field name="level"/>
+                        </group>
+                        <group>
+                            <field name="manager"/>
+                            <field name="init_meet_date"/>
+                            <field name="closure" attrs="{'invisible':[('state','not in',('reviewed','closed'))]}"/>
+                            <field name="hide_approve" invisible="1"/>
+                            <field name="hide_submit" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="plans_steps"/>
+                            <field name="final_status"/>
+                        </group>
+                        <group>
+                            <field name="ack_acceptance"/>
+                            <field name="final_comments"/>
+                        </group>
+                    </group>
+                    <notebook>
+<!--                        <page name="prev_det" string="Previous Observations, Discussions OR Counselling">-->
+<!--                            <field name="prev_details">-->
+<!--                                <tree editable="bottom">-->
+<!--                                    <field name="name"/>-->
+<!--                                    <field name="date"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
+<!--                        </page>-->
+                        <page name="goals_outcomes" string="Improvement Goals/ Expected Outcomes:">
+                            <field name="goals_outcomes">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="success_criteria"/>
+                                    <field name="weightage" widget="percentage"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pip_bip_tree_view" model="ir.ui.view">
+        <field name="name">pip.bip.tree.view</field>
+        <field name="model">pip.bip</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="active" invisible="1"/>
+                <field name="emp_id"/>
+                <field name="designation"/>
+                <field name="level"/>
+                <field name="manager"/>
+                <field name="init_meet_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_pip_bip">
+        <field name="name">PIP/BIP</field>
+        <field name="res_model">pip.bip</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('active','=',True)]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_closed_pip_bip">
+        <field name="name">PIP/BIP</field>
+        <field name="res_model">pip.bip</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('active','=',False)]</field>
+        <field name="context">{}</field>
+    </record>
+    <menuitem id="menu_pip_bip" action="action_pip_bip" name="PIP/BIP" parent="pip_parent_menu"/>
+    <menuitem id="menu_closed_pip_bip" action="action_closed_pip_bip" name="Closed PIP/BIP" parent="pip_parent_menu"/>
+</odoo>

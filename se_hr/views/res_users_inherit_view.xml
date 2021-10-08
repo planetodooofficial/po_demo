@@ -1,0 +1,18 @@
+<odoo>
+
+    <record id="res_users_view_inherit" model="ir.ui.view">
+        <field name="name">res.users.view.inherit</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+<!--            <xpath expr="//field[@name='partner_id']" position="after">-->
+            <field name="login" position="after">
+                <br/>
+                <label for="assign_role" string="Role"/>
+                <h2><field name="assign_role" widget="many2many_tags"/></h2>
+            </field>
+<!--            </xpath>-->
+        </field>
+    </record>
+
+</odoo>

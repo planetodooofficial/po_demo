@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pms_rating_form" model="ir.ui.view">
+        <field name="name">view_pms_rating_form</field>
+        <field name="model">pms.rating</field>
+        <field name="arch" type="xml">
+            <form string="PMS Rating Analytics Report">
+                <!--                <group col="4" colspan="6">-->
+                <field name="state" invisible="1"/>
+                <field name="file_name" invisible="1"/>
+                <div states="choose">
+                    <group>
+                        <field name="filters" widget="radio"/>
+                    </group>
+                    <group>
+                        <field name="manager_wise" widget="many2many_tags" attrs="{'invisible':[('filters','!=','manager')] ,
+                            'required':[('filters','=','manager')]}"/>
+                        <field name="team_wise" widget="many2many_tags" attrs="{'invisible':[('filters','!=','team_level')] ,
+                            'required':[('filters','=','team_level')]}"/>
+                    </group>
+                </div>
+                <div states="get">
+                    <field name="data" readonly="1" filename="file_name"/>
+                </div>
+                <!--                </group>-->
+                <footer states="choose">
+                    <button name="print_pms_manager_rating_analytics" string="Print" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pms_rating_report" model="ir.actions.act_window">
+        <field name="name">PMS Rating Analytics Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pms.rating</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_pms_rating" />
+    </record>
+    <!--    <menuitem name="PMS Analytics" id="hr_pms_analytic_menu"-->
+    <!--              parent="oh_appraisal.menu_hr_appraisal_root"/>-->
+    <menuitem name="PMS Analytic (Export)" id="pms_manager_analytics_report" action="action_pms_rating_report" parent="okr_parent_menu"/>
+</odoo>

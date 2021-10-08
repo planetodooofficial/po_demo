@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="hr_quarter_master_tree" model="ir.ui.view">
+        <field name="name">hr_quarter_master_tree</field>
+        <field name="model">quarter.master</field>
+        <field name="arch" type="xml">
+            <tree string="Quarter Master">
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="years"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hr_quarter_form" model="ir.ui.view">
+        <field name="name">view_hr_quarter_form</field>
+        <field name="model">quarter.master</field>
+        <field name="arch" type="xml">
+            <form string="Quarter Master">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="years"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_quarter_master_action" model="ir.actions.act_window">
+        <field name="name">Quarter Master</field>
+        <field name="res_model">quarter.master</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Quarters" action="hr_quarter_master_action" id="quarter_menu_new_item_key"
+              parent="okr_parent_menu" />
+</odoo>

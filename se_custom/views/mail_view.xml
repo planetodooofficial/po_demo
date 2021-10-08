@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mail_form_inherit" model="ir.ui.view">
+        <field name="name">mail.mail.inherited.view</field>
+        <field name="model">mail.mail</field>
+        <field name="inherit_id" ref="mail.view_mail_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form//field[@name='scheduled_date']" position="replace">
+                <field name="custom_schedule_date"/>
+            </xpath>
+        </field>
+    </record>
+
+    <data noupdate="1">
+        <record id="send_scheduled_mail" model="ir.cron">
+            <field name="name">Send Scheduled Emails</field>
+            <field name="model_id" ref="model_mail_mail"/>
+            <field name="state">code</field>
+            <field name="code">model.schedule_send()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+        </record>
+    </data>
+
+</odoo>

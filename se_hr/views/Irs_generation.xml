@@ -1,0 +1,266 @@
+<odoo>
+    <template id="pdf_interview_sheet_receipt" name="Interview Rating Sheet">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <head>
+                    <style>
+                        table,td,th {
+                        border: 1px solid black;
+                        border-collapse: collapse;
+                        }
+                        th, td {
+                        padding: 5px;
+                        text-align: center;
+                        }
+
+                    </style>
+                </head>
+                <body><p>
+                    <table align="center" style="width:80%;">
+                        <caption>
+                            <b>
+                                <u>INTERVIEW RATING SHEET</u>
+                            </b>
+                        </caption>
+                        <tr>
+                            <td style="background-color:#B0E0E6;">Candidate Name</td>
+                            <td t-if="o.candidate.partner_name">
+                                <t t-esc="o.candidate.partner_name"/>
+                            </td>
+                            <td t-else=" "/>
+                            <td style="background-color:#B0E0E6;">Position</td>
+                            <td t-if="o.job_position.name">
+                                <t t-esc="o.job_position.name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="background-color:#B0E0E6;">Client</td>
+                            <td t-if="o.clients_name.name">
+                                <t t-esc="o.clients_name.name"/>
+                            </td>
+                            <td t-else=" "/>
+                            <td style="background-color:#B0E0E6;">Level</td>
+                            <td t-if="o.level">
+                                <t t-esc="o.level"/>
+                            </td>
+                            <td t-else=" "/>
+                        </tr>
+                    </table>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <table align="center" style="width:90%">
+                        <tr style="background-color:#B0E0E6;">
+                            <th>Parameters</th>
+                            <th>Comments</th>
+                            <th>Parameters</th>
+                            <th>Comments</th>
+                        </tr>
+                        <tr>
+                            <td>Communication Skill (1 Low-5 High)</td>
+                            <td t-if="o.communication">
+                                <t t-esc="o.communication"/>
+                            </td>
+                            <td t-else=" "/>
+                            <td>Open to Travel as per project requirements</td>
+                            <td t-if="o.open_to_travel">
+                                Yes
+                            </td>
+                            <td t-else=" ">
+                                No
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Current Organization</td>
+                            <td t-if="o.organisation">
+                                <t t-esc="o.organisation"/>
+                            </td>
+                            <td t-else=" ">-</td>
+                            <td>Current CTC</td>
+                            <td t-if="o.curr_ctc">
+                                <t t-esc="o.curr_ctc"/>
+                            </td>
+                            <td t-else=" ">-</td>
+                        </tr>
+                        <tr>
+                            <td>Total Experience</td>
+                            <td t-if="o.tot_exp">
+                                <t t-esc="o.tot_exp"/>
+                            </td>
+                            <td t-else=" ">-</td>
+                            <td>TH Salary (Monthly)</td>
+                            <td t-if="o.month_salary">
+                                <t t-esc="o.month_salary"/>
+                            </td>
+                            <td t-else=" ">-</td>
+                        </tr>
+                        <tr>
+                            <td>Relevant Experience</td>
+                            <td t-if="o.rel_exp">
+                                <t t-esc="o.rel_exp"/>
+                            </td>
+                            <td t-else=" ">-</td>
+                            <td>Expected CTC &amp; TH (nego)</td>
+                            <td t-if="o.expd_ctc">
+                                <t t-esc="o.expd_ctc"/>
+                            </td>
+                            <td t-else=" ">-</td>
+                        </tr>
+                        <tr>
+                            <td>Current Location</td>
+                            <td t-if="o.curr_location">
+                                <t t-esc="o.curr_location"/>
+                            </td>
+                            <td t-else=" ">-</td>
+                            <td>Notice Period (nego)</td>
+                            <td t-if="o.notice_period">
+                                <t t-esc="o.notice_period"/>
+                            </td>
+                            <td t-else=" ">-</td>
+                        </tr>
+                        <tr>
+                            <td>Preferred Location</td>
+                            <td t-if="o.pref_location">
+                                <t t-esc="o.pref_location"/>
+                            </td>
+                            <td t-else=" ">-</td>
+                            <td>Offer in hand (Yes/ No)</td>
+                            <td t-if="o.offer_inhand">
+                               Yes
+                            </td>
+                            <td t-else=" ">No</td>
+                        </tr>
+                        <tr>
+                            <td>Reason for Job Change or Not working</td>
+                            <td t-if="o.job_change_reason">
+                                <t t-esc="o.job_change_reason"/>
+                            </td>
+                            <td t-else=" ">-</td>
+                            <td>Qualification</td>
+                            <td t-if="o.qualification">
+                                <t t-esc="o.qualification"/>
+                            </td>
+                            <td t-else=" ">-</td>
+                        </tr>
+                        <tr>
+                            <td>Open for Relocation</td>
+                            <td t-if="o.relocation">
+                                Yes
+                            </td>
+                            <td t-else=" ">No</td>
+                            <td>Certifications</td>
+                            <td t-if="o.certi">
+                                <t t-esc="o.certi"/>
+                            </td>
+                            <td t-else=" ">-</td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <br/>
+                    <table align="center" style="width:90%">
+                        <tr style="background-color:#B0E0E6;">
+                            <th>Interviewer</th>
+                            <th>Name &amp; Date</th>
+                            <th>Final &amp; Feedback Comments</th>
+                            <th>Reject/Hold/Select</th>
+                        </tr>
+                        <tr>
+                            <td style="background-color:#B0E0E6;" t-if="o.owner"><t t-esc="o.owner.name"/></td>
+                            <td t-else=" ">-</td>
+                            <td t-if="o.date"><t t-esc="o.date"/></td>
+                            <td t-else=" ">-</td>
+                            <td t-if="o.feed_comments"><t t-esc="o.feed_comments"/></td>
+                            <td t-else=" ">-</td>
+                            <td t-if="o.appl_status"><span t-field="o.appl_status"/></td>
+                            <td t-else=" ">-</td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <br/>
+                    <table align="center" style="width:90%">
+                        <tr style="background-color:#B0E0E6;">
+                            <th colspan="4">
+                                <center>
+                                    <img t-att-src="image_data_uri(o.image_smiles)" class="float-left"/>
+                                </center>
+                            </th>
+                        </tr>
+                        <tr style="background-color:#B0E0E6;">
+                            <th>Assessment Parameter</th>
+                            <th>Rating</th>
+                        </tr>
+                        <tr>
+                            <td>Candidate Claims for work</td>
+                            <td t-if="o.claims_for_work"><span t-field="o.claims_for_work"/></td>
+                            <td t-else=" ">-</td>
+                        </tr>
+                        <tr>
+                            <td>Honesty</td>
+                            <td t-if="o.honesty"><span t-field="o.honesty"/></td>
+                            <td t-else=" ">-</td>
+
+                        </tr>
+                        <tr>
+                            <td>Presentability</td>
+                            <td t-if="o.presentability"><span t-field="o.presentability"/></td>
+                            <td t-else=" ">-</td>
+
+                        </tr>
+                        <tr>
+                            <td>Communication Skills</td>
+                            <td t-if="o.comm_skills"><span t-field="o.comm_skills"/></td>
+                            <td t-else=" ">-</td>
+
+                        </tr>
+                        <tr>
+                            <td>Attitude/Positive Approach</td>
+                            <td t-if="o.attitude"><span t-field="o.attitude"/></td>
+                            <td t-else=" ">-</td>
+
+                        </tr>
+                        <tr>
+                            <td>Confidence</td>
+                            <td t-if="o.confidence"><span t-field="o.confidence"/></td>
+                            <td t-else=" ">-</td>
+
+                        </tr>
+                        <tr>
+                            <td>Clarity of thought</td>
+                            <td t-if="o.thoughts_clarity"><span t-field="o.thoughts_clarity"/></td>
+                            <td t-else=" ">-</td>
+
+                        </tr>
+                        <tr>
+                            <td>Structured Approach</td>
+                            <td t-if="o.struct_approach"><span t-field="o.struct_approach"/></td>
+                            <td t-else=" ">-</td>
+
+                        </tr>
+                        <tr>
+                            <td>Technical Strength</td>
+                            <td t-if="o.tech_strength"><span t-field="o.tech_strength"/></td>
+                            <td t-else=" ">-</td>
+
+                        </tr>
+                        <tr>
+                            <td>Primary Focus(job/money)</td>
+                             <td t-if="o.prim_focus"><span t-field="o.prim_focus"/></td>
+                            <td t-else=" ">-</td>
+
+                        </tr>
+                        <tr>
+                            <td>Fitment into SecurEyes</td>
+                            <td t-if="o.se_fitment"><span t-field="o.se_fitment"/></td>
+                            <td t-else=" ">-</td>
+
+                        </tr>
+
+                    </table>
+                </p>
+
+
+                </body>
+            </t>
+        </t>
+    </template>
+</odoo>

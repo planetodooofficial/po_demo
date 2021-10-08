@@ -1,0 +1,257 @@
+<odoo>
+    <template id="commercial_proposal_layout">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <t t-call="pre_sales.commercial_proposal_header">
+            <t t-raw="0"/>
+        </t>
+
+    </template>
+    <template id="commercial_proposal_header">
+        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+            <div class="o_boxed_header" style="border-bottom:3px solid #0075B0;">
+                <div class="row mb8">
+                    <div class="col-6">
+                        <h4 class="mt0" t-field="company.report_header"/>
+                        <div name="company_address" class="float-left mb4">
+                            <img src="/pre_sales/static/img/img_logo.png" style="width:110px;height:100px;"/>
+
+                        </div>
+                    </div>
+                    <div class="col-6 text-right mb4">
+                        M/s. SecurEyes Techno Services Pvt. Ltd.
+                        <br/>
+                        4 th Floor, Delta Block, Sigma Soft Tech Park,
+                        <br/>
+                        Whitefield Main Road, Varathur Post,
+                        <br/>
+                        Bangalore – 560 066
+                        <br/>
+                        CIN Number: U72900KA2006PTC040519
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div t-attf-class="article o_report_layout_boxed o_company_#{company.id}_layout"
+             t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <div class="pt-5">
+                <!-- This div ensures that the address is not cropped by the header. -->
+                <t t-call="web.address_layout"/>
+            </div>
+            <t t-raw="0"/>
+        </div>
+
+        <div t-attf-class="footer o_boxed_footer o_company_#{company.id}_layout">
+            <div style="width: 100%; display: table;border-color:#0075B0;border-top:3px solid #0075B0;">
+                <div style="display: table-row; height: 100px;">
+                    <div style="width: 70%; display: table-cell; ">
+                        <b>Registered Office</b>
+                        <br/>
+                        SecurEyes Techno Services Pvt. Ltd.
+                        <br/>
+                        # 3S, 3rd Floor, 51/27, Swamy Towers
+                        Chinapanahalli,
+                        <br/>
+                        Outer Ring Road,Bangalore – 560037
+                    </div>
+                    <div style="display: table-cell;">
+                        <img src="/pre_sales/static/img/phone.png" style="width:30px;height:30px;"/>
+                        +91-80-41264078/41612612
+                        <br/>
+                        <img src="/pre_sales/static/img/email.png" style="width:30px;height:30px;"/>
+                        <u style="color:#11c3df;">info@secureyes.net</u>
+                        <br/>
+                        <img src="/pre_sales/static/img/website.png" style="width:30px;height:30px;"/>
+                        <u style="color:#11C3DF;">www.secureyes.net</u>
+                    </div>
+                </div>
+                <!--                <div>-->
+                <!--                    <span style="text-align:left;">-->
+                <!--                        <b>Registered Office</b>-->
+                <!--                        <br/>-->
+                <!--                        SecurEyes Techno Services Pvt. Ltd.-->
+                <!--                        <br/>-->
+                <!--                        # 3S, 3rd Floor, 51/27, Swamy Towers-->
+                <!--                        <br/>-->
+                <!--                        Chinapanahalli, Outer Ring Road,Bangalore – 560037-->
+                <!--                    </span>-->
+                <!--                </div>-->
+                <!--                <div style="text-align:right;">-->
+                <!--                    <img src="/pre_sales/static/img/phone.png" style="width:30px;height:30px;"/>-->
+                <!--                    +91-80-41264078/41612612-->
+                <!--                    <br/>-->
+                <!--                    <img src="/pre_sales/static/img/email.png" style="width:30px;height:30px;"/>-->
+                <!--                    <u style="color:#11C3DF;">info@secureyes.net</u>-->
+                <!--                    <br/>-->
+                <!--                    <img src="/pre_sales/static/img/website.png" style="width:30px;height:30px;"/>-->
+                <!--                    <u style="color:#11C3DF;">www.secureyes.net</u>-->
+                <!--                </div>-->
+            </div>
+        </div>
+    </template>
+
+
+    <template id="commercial_proposal_receipt" name="Techno Commercial Proposal">
+        <t t-call="web.html_container">
+            <p style="page-break-after:always;"/>
+            <t t-call="pre_sales.commercial_proposal_layout">
+                <t t-foreach="docs" t-as="o">
+                    <head>
+                        <style>
+                            table {
+                            font-family: arial, sans-serif;
+                            border-collapse: collapse;
+                            width: 100%;
+                            font-size: 17px;
+                            }
+
+                            td, th {
+                            border: 1px solid #4682B4;
+                            text-align: left;
+                            padding: 8px;
+                            font-size: 17px;
+
+
+                            }
+                            tr:nth-child(even) {
+                            background-color: #c3f3ff;
+                            }
+                            ol,dl {
+                            margin-left: 20px;
+                            font-size: 17px;
+                            }
+                            p {
+                            text-align: justify;
+                            font-size: 17px;
+                            }
+                            img {
+                            display: block;
+                            margin-left: auto;
+                            margin-right: auto;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <center>
+                            <h3>
+                                <u>COMMERCIAL BID</u>
+                            </h3>
+                        </center>
+                        <p>Name of the Bidder:
+                            <u>Secureyes Techno Services Private Limited</u>
+                        </p>
+                        <p>
+                            Address for Correspondence:
+                            <u>#3S, 3rd Floor, 51/27, Swamy Towers, Chinapanahalli, Outer Ring Road, Marathahalli,
+                                Bangalore- 560037
+                            </u>
+                        </p>
+                        <p>
+                            I/we hereby submit the commercial bid
+                            <t t-if="o.application_name">
+                                <span t-field="o.application_name"/>
+                            </t>
+                            as per the Scope of work given in this document within the time specified and in accordance
+                            with the terms and conditions.
+                        </p>
+                        <p>
+                            <table>
+                                <tr style="color:#F0FFFF;background-color: #4682B4;">
+                                    <th>S.No.</th>
+                                    <th>Description of Work</th>
+                                    <th>Amount in INR</th>
+                                    <th>GST @ 18%</th>
+                                    <th>Total Amount in INR</th>
+                                </tr>
+                                <t t-set="count" t-value="0"/>
+                                <t t-foreach="o.sale_work_id" t-as="line">
+                                    <t t-set="count" t-value="count+1"/>
+                                    <tr>
+                                        <td>
+                                            <t t-esc="count"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.description_work"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.amount_inr"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.amount_gst"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.amount_total"/>
+                                            <br/>
+                                            <b>(Rupees
+                                                <t t-esc="line.amount_words"/>
+                                                Only)
+                                            </b>
+                                        </td>
+                                    </tr>
+
+                                </t>
+
+                            </table>
+
+                        </p>
+                        <br/>
+                        <br/>
+                        <p style="font-size: 20px;color:#4682B4">
+                            <b>2.7 Terms &amp; Conditions</b>
+                        </p>
+                        <p>
+                            <ol>
+                                <li>Taxes are applicable as on the date of invoicing.</li>
+                                <li>The project can commence within a reasonable time, based on mutual convenience of
+                                    receipt of the work order.
+                                </li>
+                                <li>Payment to be made within two weeks of receipt of invoice</li>
+                                <li>Following is the payment structure for the project engagement:
+                                    <ul>
+                                        <t t-foreach="o.sale_milestone" t-as="s">
+                                            <li>
+                                                <t t-set="milestone" t-value="int(s.milestone_perc*100)"/>
+                                                <t t-esc="milestone"/>% of payment after
+                                                <t t-esc="s.description"/>
+                                            </li>
+                                        </t>
+                                    </ul>
+                                </li>
+                                <li>Phase-2 activity will be initiated only after confirmation by the client towards the
+                                    resolution of all vulnerabilities as reported in the phase-1 reports.(Refer Proposal
+                                    for Phase-1 &amp; Phase-2)
+                                </li>
+                                <li>The project activity would be conducted remotely from
+                                    <t t-if="o.shores">
+                                        <span t-field="o.shores"/>
+                                    </t>
+                                    .
+                                </li>
+                                <li>Any further re- audits chargeable on pro-rata basis.</li>
+                            </ol>
+                        </p>
+                    </body>
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

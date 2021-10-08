@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+"access_employee_leave_policy","access.employee.leave.policy","model_employee_leave_policy","base.group_user",1,1,1,1
+"access_leave_report","access.leave.report","model_leave_report","base.group_user",1,1,1,1
+"access_holidays_import","access.holidays.import","model_holidays_import","base.group_user",1,1,1,1
+"hr_holidays.access_hr_holidays_manager_allocation","hr.holidays.manager.allocation","hr_holidays.model_hr_leave_allocation","hr_holidays.group_hr_holidays_manager",1,0,0,0
+"hr_holidays.access_hr_holidays_user_allocation","hr.holidays.user.allocation","hr_holidays.model_hr_leave_allocation","hr_holidays.group_hr_holidays_user",1,0,0,0
+"hr_holidays.access_hr_holidays_employee_allocation","hr.holidays.employee.allocation","hr_holidays.model_hr_leave_allocation","base.group_user",1,0,0,0
+"access_hr_holidays_employee_allocation_hod","hr.holidays.hod.allocation","hr_holidays.model_hr_leave_allocation","se_hr.group_HR_hod_user",1,1,1,1

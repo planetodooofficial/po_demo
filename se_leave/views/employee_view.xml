@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_employee_form_inherited" model="ir.ui.view">
+        <field name="name">hr.employee.form.view</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='coach_id']/.." position="inside">
+<!--                <field name="join_date"/>-->
+                <field name="probation_ending_date"/>
+            </xpath>
+            <xpath expr="//notebook//page[@name='hr_settings']" position="after">
+                <page name="hr_leaves" string="Leaves Info">
+                    <field name="leaves">
+                        <tree editable="bottom">
+                            <field name="leave_type"/>
+                            <field name="leaves_credited"/>
+                            <field name="leaves_balance"/>
+                            <field name="prev_year_with_leave" invisible="1"/>
+                            <field name="restrict_excess_leave" invisible="1"/>
+                            <field name="previous_month" invisible="1"/>
+                            <field name="carry_forwarded_leaves"/>
+                            <field name="excess_leaves" attrs="{'readonly':[('restrict_excess_leave','=',True)]}"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

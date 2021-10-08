@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+"access_objective_master","objective.master","model_objective_master","base.group_user",1,1,1,1
+"access_key_results","key.results","model_key_results","base.group_user",1,1,1,1
+"access_role_mapping","role.mapping","model_role_mapping","base.group_user",1,1,1,1
+"access_role_mapping_line","role.mapping.line","model_role_mapping_line","base.group_user",1,1,1,1
+"access_okr_master","okr.master","model_okr_master","base.group_user",1,1,1,1
+"access_import_role","import.role","model_import_role","base.group_user",1,1,1,1
+"access_value_master","value.master","model_value_master","base.group_user",1,1,1,1
+"access_values_mapping_line","values.mapping.line","model_values_mapping_line","base.group_user",1,1,1,1
+"access_pip_bip","pip.bip","model_pip_bip","base.group_user",1,1,1,1
+"access_previous_details","previous.details","model_previous_details","base.group_user",1,1,1,1
+"access_goals_outcomes","goals.outcomes","model_goals_outcomes","base.group_user",1,1,1,1
+"access_pip_meeting","pip.meeting","model_pip_meeting","base.group_user",1,1,1,1
+"access_quarter_master","quarter.master","model_quarter_master","base.group_user",1,1,1,1
+"access_pms_rating","pms.rating","model_pms_rating","base.group_user",1,1,1,1
+

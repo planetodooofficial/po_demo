@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_contract_search_view_inherited" model="ir.ui.view">
+        <field name="name">hr.contract.search.view</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="/search//filter[@name='inactive']" position="attributes">
+                <attribute name="domain">[('active', '=', False),('sent_for_approval','=',False)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_contract_form_view_inherited" model="ir.ui.view">
+        <field name="name">hr.contract.form.view</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header//field[@name='state']" position="after">
+                <field name="approved" invisible="1"/>
+                <field name="sent_for_approval" invisible="1"/>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="approve_contract" string="Approve" class="btn-primary" type="object"
+                        attrs="{'invisible':[('sent_for_approval','=',False)]}" groups="se_hr.group_HR_hod_user"/>
+            </xpath>
+            <xpath expr="//field[@name='date_start']" position="after">
+                <field name="join_date"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="custom_action_hr_contract" model="ir.actions.act_window">
+            <field name="name">Contracts</field>
+            <field name="res_model">hr.contract</field>
+            <field name="view_mode">kanban,tree,form,activity</field>
+            <field name="domain">[('employee_id', '!=', False),('active','=',False),('sent_for_approval','=',True)]</field>
+            <field name="context">{'search_default_current':1, 'search_default_group_by_state': 1}</field>
+            <field name="search_view_id" ref="hr_contract.hr_contract_view_search"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No contract to approve
+              </p>
+            </field>
+        </record>
+        <menuitem id="contract_to_approve_menu" name="Contracts to Approve" action="custom_action_hr_contract" parent="hr.menu_hr_employee_payroll"/>
+
+</odoo>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="se_custom.project_template"
+              name="Project Templates"
+              parent="project.menu_main_pm"
+              action="se_custom.open_view_project_all_copy"
+              groups="se_access_rights.group_template_admin"/>
+
+     <menuitem
+        id="maintenance.menu_equipment_form"
+        name="Equipments"
+        parent="maintenance.menu_maintenance_title"
+        action="maintenance.hr_equipment_action"
+        groups="maintenance.group_equipment_manager,base.group_user,se_access_rights.it_manager_group"
+        sequence="2"/>
+
+<!--    <record id="hr_employee_view_form_smart_button" model="ir.ui.view">-->
+<!--        <field name="name">hr.employee.view.form.inherit.maintenance.access</field>-->
+<!--        <field name="model">hr.employee</field>-->
+<!--        <field name="inherit_id" ref="hr_maintenance.hr_employee_view_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//button[@name='%(maintenance.hr_equipment_action)d']" position="replace">-->
+<!--                <button name="%(maintenance.hr_equipment_action)d"-->
+<!--                    context="{'search_default_employee_id': id, 'default_employee_id': id}"-->
+<!--                    groups="maintenance.group_equipment_manager, se_access_rights.it_manager_group"-->
+<!--                    class="o_stat_button"-->
+<!--                    icon="fa-cubes"-->
+<!--                    type="action">-->
+<!--                    <field name="equipment_count" widget="statinfo"/>-->
+<!--                </button>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="hr_timesheet_line_tree_view_inherited" model="ir.ui.view">-->
+<!--        <field name="name">account.analytic.view.inherit</field>-->
+<!--        <field name="model">account.analytic.line</field>-->
+<!--        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--             <xpath expr="/tree//button[@name='approve_entry']" position="attributes">-->
+<!--                    <attribute name="groups">hr_timesheet.group_hr_timesheet_approver</attribute>-->
+<!--             </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    maintenance.access_equipment_admin_user,equipment.admin.user,model_maintenance_equipment,maintenance.group_equipment_manager,0,0,0,0-->
+<!--maintenance.access_equipment_user,equipment.user,model_maintenance_equipment,base.group_user,0,0,0,0-->
+<!--access_equipment_it_manager,equipment.it_manager,model_maintenance_equipment,se_access_rights.it_manager_group,1,1,1,1-->
+
+</odoo>

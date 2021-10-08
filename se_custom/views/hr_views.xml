@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+        <record id="hr_employee_seq" model="ir.sequence">
+            <field name="name">Hr Employee</field>
+            <field name="code">hr.employee</field>
+            <field name="padding">3</field>
+        </record>
+    </data>
+
+    <record id="hr_applicant_interviewer" model="ir.rule">
+        <field name="name">Applicant Interviewer</field>
+        <field name="model_id" ref="model_hr_applicant"/>
+        <field name="domain_force">['|',('interviewer1.id','=',user.id),('interviewer2.id','=',user.id)]</field>
+        <field name="groups" eval="[(4, ref('se_custom.group_hr_recruitment_interviewer'))]"/>
+    </record>
+
+    <record id="hr_employee_inherited" model="ir.ui.view">
+        <field name="name">hr.employee.view</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form//page[@name='personal_information']//div[@name='div_km_home_work']" position="after">
+                <field name="pan"/>
+                <field name="adahar"/>
+                <field name="blood_group"/>
+                <label for="street" string="Correspondence Address"/>
+                <div class="o_address_format">
+                    <field name="street" placeholder="Street" class="oe_edit_only"/>
+                    <field name="street2" placeholder="Street2" invisible="1"/>
+                    <field name="city" placeholder="City"/>
+                    <field name="state_id" class="o_address_state" placeholder="State..." options='{"no_open": True}'/>
+                    <field name="country_id" placeholder="Country" class="o_address_country"
+                           options='{"no_open": True, "no_create": True}'/>
+                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                </div>
+            </xpath>
+            <xpath expr="//sheet//div[@name='button_box']" position="inside">
+                <button name="show_alloted_projects" type="object" string="Projects" class="oe_stat_button" icon="fa-pencil"/>
+            </xpath>
+            <xpath expr="/form//field[@name='mobile_phone']" position="before">
+                <field name="employee_no"/>
+            </xpath>
+            <xpath expr="/form//field[@name='company_id']" position="after">
+                <field name="emp_type"/>
+            </xpath>
+
+            <!--            <xpath expr="/form//field[@name='parent_id']" position="after">-->
+            <!--                <field name="delegated_manager" context="{'default_company_id': company_id}"/>-->
+            <!--            </xpath>-->
+            <xpath expr="/form//field[@name='job_title']" position="replace">
+                <field name="job_id" placeholder="Job Position"/>
+            </xpath>
+            <xpath expr="/form//field[@name='coach_id']" position="after">
+                <field name="source_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="candidate_communication_form_new" model="ir.ui.view">
+        <field name="name">hr.applicant.form</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form//header" position="inside">
+                <button name="send_refuse_mail" string="Reject Email" class="oe_highlight" type="object"/>
+            </xpath>
+            <xpath expr="/form//field[@name='source_id']" position="after">
+                <field name="interviewer1" />
+                <field name="interviewer2" />
+            </xpath>
+            <xpath expr="/form/sheet/group" position="after">
+                <notebook>
+                    <page string="Candidate Communication">
+                        <field name="can_comm">
+                            <tree editable="bottom">
+                                <field name="activity"/>
+                                <field name="date_menu" widget="date"/>
+                                <button name="action_schedule_email" string="Schedule Activity" class="oe_highlight"
+                                        type="object"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="hr_department_inherited" model="ir.ui.view">
+        <field name="name">hr.department.view</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.view_department_form"/>
+        <field name="arch" type="xml">
+            <field name="manager_id" position="after">
+                <field name="delegated_manager_id"/>
+            </field>
+        </field>
+    </record>
+
+
+    <record id="hr_applicant_inherited" model="ir.ui.view">
+        <field name="name">hr.applicant.view</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form//field[@name='type_id']" position="after">
+                <field name="is_rejected"/>
+            </xpath>
+        </field>
+    </record>
+
+
+
+
+    <record id="hr_activity_action" model="ir.actions.act_window">
+        <field name="name">hr.activity.action</field>
+        <field name="res_model">activity.name</field>
+        <field name="view_mode">form</field>
+    </record>
+
+
+    <record id="hr_activity_name" model="ir.ui.view">
+        <field name="name">hr.activity.name</field>
+        <field name="model">activity.name</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="activity_name">
+                    </field>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!--    <record id="view_employee_form_leave" model="ir.ui.view">-->
+    <!--        <field name="name">hr.applicant.view</field>-->
+    <!--        <field name="model">hr.employee</field>-->
+    <!--        <field name="inherit_id" ref="hr_holidays.view_employee_form_leave_inherit"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--&lt;!&ndash;            <xpath expr="//field[@name='leave_manager_id']" position="after">&ndash;&gt;-->
+    <!--&lt;!&ndash;                <field name="delegated_timeoff_approver"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;            </xpath>&ndash;&gt;-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <menuitem name="Activities" action="hr_activity_action" id="activties_menu_item"
+              parent="hr_recruitment.menu_hr_recruitment_root"/>
+
+</odoo>

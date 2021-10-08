@@ -1,0 +1,37 @@
+<odoo>
+
+    <record id="holidays_import_form_view" model="ir.ui.view">
+        <field name="name">holidays.import.form.view</field>
+        <field name="model">holidays.import</field>
+        <field name="arch" type="xml">
+            <form string="Import Holidays/Working days">
+                <group>
+                    <group>
+                        <field name="upload_file"/>
+                    </group>
+                    <group>
+                        <field name="location_name"/>
+                        <field name="type_of_calendar"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="import_holidays" string="Import Holidays" type="object" class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_holidays_import" model="ir.actions.act_window">
+        <field name="name">Import Holidays/Working days</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">holidays.import</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_view_types">list</field>
+    </record>
+
+    <menuitem name="Import Holidays" action="action_holidays_import" id="menu_holidays_import"
+              groups="se_hr.group_HR_hod_user" parent="hr.menu_human_resources_configuration"/>
+
+</odoo>

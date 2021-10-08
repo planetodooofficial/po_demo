@@ -1,0 +1,127 @@
+<odoo>
+
+    <record id="proposal_form_view" model="ir.ui.view">
+        <field name="name">proposal_form_view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="pre_sales.questionare_sale_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='questionare_document']" position="after">
+<!--                <field name="pro_posals"/>-->
+                <field name="assign_many_proposal" widget="many2many_tags" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                <field name="methodology_document" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sent_proposal_form" model="ir.ui.view">
+        <field name="name">sent_proposal_form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_cancel']" position="after">
+                <button class="btn-primary" name="send_proposals" type="object" string="Send Proposal" attrs="{'invisible': [('state', 'in', ('done','cancel'))]}"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="email_proposals_send" model="mail.template">
+        <field name="name">Proposals</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="subject">"Proposals"</field>
+        <field name="email_from">${(object.partner_id.email) | safe}</field>
+        <field name="partner_to">False</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="font-size: 13px;">
+                    <p>Dear Sir/Ma’am ,<br/><br/>
+                    Greetings from SecurEyes.<br/>
+                    Please find attached our proposal for the
+                        %if object.application_name
+                        ${object.application_name}
+                        % endif
+                        <br/>
+                    We are pleased to quote our most competitive rates for the same and we
+                        look forward to your early
+                        response.
+                    </p>
+                    <p>Please contact us, should you require any further details.</p>
+                    % if user.signature
+                    <br/>
+                    ${user.signature | safe}
+                    % endif
+                </p>
+            </div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <record id="email_proposals_follow_up_send" model="mail.template">
+        <field name="name">Follow Up</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="subject">"Follow up mail"</field>
+        <field name="email_from">${(object.partner_id.email) | safe}</field>
+        <field name="partner_to">False</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="font-size: 13px;">
+                    Dear Sir/Ma’am ,<br/><br/>
+                    Greetings from SecurEyes.<br/>
+                    With reference to our proposal submitted on ${(object.partner_id.date_order)}, request you to
+                        kindly
+                    update on the status of the same.<br/>
+                    Looking forward to your reply.
+                    % if user.signature
+                    <br/>
+                    ${user.signature | safe}
+                    % endif
+                </p>
+            </div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+
+    <record id="sales_finance_tree" model="ir.ui.view">
+        <field name="name">sales_reason_master_tree</field>
+        <field name="model">sale.finance</field>
+        <field name="arch" type="xml">
+            <tree string="Sale Finance" editable="bottom">
+                <field name="description_work"/>
+                <field name="amount_inr"/>
+                <field name="amount_gst"/>
+                <field name="amount_total"/>
+                <field name="amount_words" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pre_sale_hr_document" model="ir.ui.view">
+        <field name="name">pre_sale_hr_document</field>
+        <field name="model">hr.document</field>
+        <field name="inherit_id" ref="oh_employee_documents_expiry.hr_document_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='note']" position="after">
+                <field name="types_doc"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="pre_sale_orders_unlock" model="ir.ui.view">
+        <field name="name">pre_sale_orders_unlock</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_auto_done_setting"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_unlock']" position="replace">
+                <button name="action_unlock" type="object" string="Unlock" states="done" groups="sales_team.group_sale_manager,se_hr.group_HR_hod_user"/>
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem id="hr_document_template__sale_menuitem"
+              name="Document Templates"
+              parent="sale.sale_menu_root"
+              sequence="500"
+              action="oh_employee_documents_expiry.hr_document_template_action"/>
+
+</odoo>

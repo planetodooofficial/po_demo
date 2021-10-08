@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--    ########## OKR Master ############ -->
+    <record id="hr_okr_tree" model="ir.ui.view">
+        <field name="name">hr_okr_tree</field>
+        <field name="model">okr.master</field>
+        <field name="arch" type="xml">
+            <tree string="OKR Master">
+                <field name="quarters"/>
+                <field name="employee_master"/>
+                <field name="roles_assign_mapp"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_hr_form_okr_appraisal" model="ir.ui.view">
+        <field name="name">view_hr_form_okr_appraisal</field>
+        <field name="model">okr.master</field>
+        <field name="arch" type="xml">
+            <form string="OKR Master" >
+                <header>
+                    <button name="submit_role" string="Submit" type="object"
+                            class="oe_highlight" attrs="{'invisible': [('states', 'in', ('manager_approval','done'))]}"/>
+                    <button name="reject_role" string="Reject" type="object"
+                            class="oe_highlight" attrs="{'invisible': [('states', '=', 'okr_settings')]}" groups="se_hr.group_HR_hod_user"/>
+                    <!--                    <button name="reject_role" string="Reject" type="object"-->
+                    <!--                            class="oe_highlight" attrs="{'invisible': [('states', '=', 'okr_settings')]}" groups="base.group_system"/>-->
+                    <button name="manager_approval" string="Approve" type="object"
+                            class="oe_highlight" attrs="{'invisible': ['|',('states', '!=', 'manager_approval'),('manager_approve','=',False)]}"/>
+                    <button class="oe_stat_button" name="show_prev_okrs"  string="Previous OKR's" type="object" icon="fa-bars">
+                    </button>
+                    <field name="states" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Completed" bg_color="bg-success" attrs="{'invisible': [('states','!=','done')]}"/>
+                    <group>
+                        <group>
+                            <field name="quarters" attrs="{'readonly':[('states','!=','okr_settings')]}"/>
+                            <field name="defin_rating" attrs="{'invisible': [('states','not in',['self_appraisal','manager_apraisal','hr_appraisal'])]}"/>
+                            <field name="value_framework" filename="file_name"/>
+                            <field name="perform_policy"/>
+                            <field name="file_name" invisible="1"/>
+                            <field name="annual_rating" attrs="{'invisible': [('is_quarter', '=',False )],'readonly':[('states','=','done')]}"/>
+                            <field name="overall_anual_rating" attrs="{'invisible': [('is_quarter', '=',False )],'readonly':[('states','=','done')]}"/>
+                            <field name="overall_value_rating" attrs="{'invisible': [('is_quarter', '=',False )],'readonly':[('states','=','done')]}"/>
+                            <field name="overall_anual_comment" attrs="{'invisible': [('is_quarter', '=',False )],'readonly':[('states','=','done')]}"/>
+                            <field name="self_appraisal" invisible="1"/>
+                            <field name="manager_appraisal" invisible="1"/>
+                            <field name="manager_approve" invisible="1"/>
+                            <field name="hr_appraisal" invisible="1"/>
+                            <field name="is_quarter" invisible="1"/>
+                            <field name="date_from" invisible="1"/>
+                            <field name="date_to" invisible="1"/>
+                            <field name="year" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="roles_assign_mapp" attrs="{'readonly':[('states','!=','okr_settings')]}"/>
+                            <field name="employee_master" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="manager_overall_ratings" attrs="{'invisible': [('manager_appraisal', '=', False)]}"/>
+                            <field name="manager_overall_comments" attrs="{'invisible': [('manager_appraisal', '=', False)],'readonly':[('states','!=','manager_apraisal')]}"/>
+                        </group>
+                        <group>
+                            <field name="employee_overall_ratings" attrs="{'invisible':[('self_appraisal','=',False)]}"/>
+                            <field name="employee_overall_comments" attrs="{'invisible':[('self_appraisal','=',False)],'readonly':[('states','!=','self_appraisal')]}"/>
+                            <field name="hr_overall_comments" attrs="{'invisible':[('hr_appraisal','=',False)],'readonly':[('states','!=','hr_appraisal')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page id="okr_objective"
+                              string="Objective Tabs">
+                            <field name="okr_mapp_role" widget="one2many">
+                                <tree string="Role Mapping" editable="bottom">
+                                    <field name="role_assign_line" string="Objectives" attrs="{'readonly':[('parent.states','not in',('okr_settings','manager_approval'))]}"/>
+                                    <field name="key_skill_many_role" widget="many2many_tags" attrs="{'readonly':[('parent.states','not in',('okr_settings','manager_approval'))]}"/>
+                                    <field name="objective_weight" widget="percentage" attrs="{'readonly':[('parent.states','not in',('okr_settings','manager_approval'))]}"/>
+
+                                    <field name="employee_ratings" attrs="{'column_invisible':[('parent.self_appraisal','=',False)],'readonly':[('parent.states','!=','self_appraisal')]}" />
+                                    <field name="employe_comments" style="width:400px;height:80px;" attrs="{'column_invisible':[('parent.self_appraisal','=',False)],'readonly':[('parent.states','!=','self_appraisal')]}"/>
+                                    <field name="manager_ratings"
+                                           attrs="{'column_invisible': [('parent.manager_appraisal', '=', False)],'readonly':[('parent.states','!=','manager_apraisal')]}"/>
+                                    <field name="manager_comments"
+                                           style="width:400px;height:80px;" attrs="{'column_invisible': [('parent.manager_appraisal', '=', False)],'readonly':[('parent.states','!=','manager_apraisal')]}"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page id="okr_values"
+                              string="Values Tab">
+                            <field name="values_mapp_role" widget="one2many">
+                                <tree string="values Mapping" editable="bottom">
+                                    <field name="values_store" attrs="{'readonly':[('parent.states','not in',('okr_settings','manager_approval'))]}"/>
+                                    <field name="value_weight" widget="percentage" attrs="{'readonly':[('parent.states','not in',('okr_settings','manager_approval'))]}"/>
+                                    <field name="employee_values_ratings" attrs="{'column_invisible':[('parent.self_appraisal','=',False)],'readonly':[('parent.states','!=','self_appraisal')]}"/>
+                                    <field name="employe_comments_for_values" style="width:400px;height:80px;" attrs="{'column_invisible':[('parent.self_appraisal','=',False)],'readonly':[('parent.states','!=','self_appraisal')]}"/>
+                                    <field name="manager_values_ratings"
+                                           attrs="{'column_invisible': [('parent.manager_appraisal', '=', False)],'readonly':[('parent.states','!=','manager_apraisal')]}"/>
+                                    <field name="manager_comments_for_values"
+                                           style="width:400px;height:80px;" attrs="{'column_invisible': [('parent.manager_appraisal', '=', False)],'readonly':[('parent.states','!=','manager_apraisal')]}"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                    <field name="note" placeholder="Note......." attrs="{'invisible': [('states','not in',('self_appraisal','manager_apraisal'))]}"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_okrs_filter" model="ir.ui.view">
+        <field name="name">view_okrs_filter</field>
+        <field name="model">okr.master</field>
+        <field name="arch" type="xml">
+            <search string="Okrs">
+                <group expand="0" string="Group By">
+                    <filter string="Quarters" name="quarters" domain="[]" context="{'group_by': 'quarters'}"/>
+                    <filter string="Years" name="year" domain="[]" context="{'group_by': 'year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="hr_okr_view_action" model="ir.actions.act_window">
+        <field name="name">OKR Skills</field>
+        <field name="res_model">okr.master</field>
+        <field name="search_view_id" ref="view_okrs_filter"/>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'group_by':['quarters']}</field>
+    </record>
+
+    <menuitem name="OKR'S" action="hr_okr_view_action" id="okr_master_menu_item_new" sequence="1"
+              parent="okr_parent_menu"/>
+
+</odoo>

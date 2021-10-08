@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="edit_project_inherited" model="ir.ui.view">
+        <field name="name">project.edit.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position='inside'>
+                <!--                <button name="button_draft" string="Draft" states="locked" class="oe_highlight" type="object" attrs="{'invisible': [('state', '=', 'locked')]}"/>-->
+                <!--                <button name="button_locked" string="Locked" class="oe_highlight" type="object" attrs="{'invisible': [('state', '=', 'draft')]}"/>-->
+                <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+            </xpath>
+            <!--            <xpath expr="//field[@name='name']"  position='after'>-->
+            <!--                <field name="is_stage"/>-->
+            <!--            </xpath>-->
+            <xpath expr="/form/sheet//div[@name='options_active']" position="inside">
+                <field name="type_ids" invisible="1"/>
+                <field name="current_record" invisible="1"/>
+                <!--                <field name="sub_proj_created" invisible="1"/>-->
+            </xpath>
+            <!--            <xpath expr="/form/sheet//div[@name='options_active']" position="after">-->
+            <!--                <div name="sub_proj">-->
+            <!--                    <label for="sub_proj" name=""/>-->
+            <!--                </div>-->
+            <!--            </xpath>-->
+            <xpath expr="/form/sheet//button[@name='action_view_all_rating']" position="after">
+                <button class="oe_stat_button" type="object"
+                        name="action_view_sub_projects" icon="fa-tasks">
+                    <field string="Sub Projects" name="sub_proj_count" widget="statinfo"/>
+                </button>
+            </xpath>
+            <xpath expr="/form//header" position="inside">
+                <button class="btn_primary" type="object" name="create_sub_projects" string="Create SubProject"
+                        attrs="{'invisible':[('sub_proj','!=',False),('state','!=','draft')]}"/>
+            </xpath>
+
+            <xpath expr="/form/sheet//div[hasclass('oe_title')]" position="after">
+                <group>
+                    <group>
+                        <field name="is_a_template"/>
+                        <field name="so_desc"/>
+                        <field name="sale_order_id"/>
+                        <field name="is_name_check" invisible="1"/>
+                    </group>
+                    <group>
+                        <!--                        <field name="final_stage"/>-->
+                        <field name="project_status"/>
+                        <field name="sub_proj_created" invisible="1"/>
+                        <field name="sub_proj" widget="many2many_tags"
+                               domain="[('is_a_template','=',True),('id','!=',current_record)]"
+                               attrs="{'invisible':['|',('state','!=','draft'),('sub_proj_created','=',True)]}"/>
+                    </group>
+                </group>
+            </xpath>
+<!--            <xpath expr="/form/sheet//div[hasclass('oe_title')]" position="after">-->
+<!--                <h1>-->
+<!--                    <field name="project_name" placeholder="Project Name"-->
+<!--                           attrs="{'invisible':[('is_name_check','!=',True)]}"/>-->
+<!--                </h1>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="attrs">{'readonly':[('is_a_template','=',False)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_project_kanban_inherit" model="ir.ui.view">
+        <field name="name">project.kanban.view.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="/kanban//field[@name='partner_id']" position="after">
+                <field name="is_a_template" invisible="1"/>
+                <field name="sub_proj_count" invisible="1"/>
+                <field name="sub_proj" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="project.view_project_kanban">
+        <field name="name">project.project.kanban</field>
+        <field name="model">project.project</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors"
+                    on_create="project.open_create_project" sample="1">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="color"/>
+                <field name="task_count"/>
+                <field name="label_tasks"/>
+                <field name="so_desc"/>
+                <field name="alias_id"/>
+                <field name="alias_name"/>
+                <field name="alias_domain"/>
+                <field name="is_favorite"/>
+                <field name="rating_percentage_satisfaction"/>
+                <field name="rating_status"/>
+                <field name="rating_active"/>
+                <field name="sub_proj_created" invisible="1"/>
+                <!--                <field name="sub_proj_created" invisible="1"/>-->
+                <field name="analytic_account_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click o_has_icon">
+                            <div class="o_project_kanban_main">
+                                <div class="o_kanban_card_content">
+                                    <div class="o_kanban_primary_left">
+                                        <div class="o_primary">
+                                            <span>
+                                                <t t-esc="record.name.value"/>
+                                            </span>
+                                            <span t-if="record.partner_id.value">
+                                                <strong>
+                                                    <t t-esc="record.partner_id.value"/>
+                                                </strong>
+                                            </span>
+                                        </div>
+                                        <div t-if="record.alias_name.value and record.alias_domain.value">
+                                            <span>
+                                                <i class="fa fa-envelope" role="img" aria-label="Domain Alias"
+                                                   title="Domain Alias"></i>
+                                                <a t-att-href="'mailto:' + record.alias_id.value" title="Send an email">
+                                                    <t t-esc="record.alias_id.value"/>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div t-if="record.rating_active.raw_value" class="mt8 text-primary"
+                                             title="Percentage of happy ratings over the past 30 days."
+                                             groups="project.group_project_rating">
+                                            <b>
+                                                <a name="action_view_all_rating" type="object"
+                                                   context="{'search_default_rating_last_30_days':1}">
+                                                    <t t-if="record.rating_percentage_satisfaction.value != -1">
+                                                        <i class="fa fa-smile-o" role="img"
+                                                           aria-label="Percentage of satisfaction"
+                                                           title="Percentage of satisfaction"/>
+                                                        <t t-esc="record.rating_percentage_satisfaction.value"/>%
+                                                    </t>
+                                                </a>
+                                            </b>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_card_manage_pane dropdown-menu"
+                                     groups="project.group_project_manager" role="menu">
+                                    <div class="o_kanban_card_manage_section o_kanban_manage_reports">
+                                        <div role="menuitem">
+                                            <a name="%(portal.portal_share_action)d" type="action">Share</a>
+                                        </div>
+                                        <div role="menuitem">
+                                            <a type="edit">Edit</a>
+                                        </div>
+                                    </div>
+                                    <div role="menuitem" aria-haspopup="true" class="o_no_padding_kanban_colorpicker">
+                                        <ul class="oe_kanban_colorpicker" data-field="color" role="popup"/>
+                                    </div>
+                                </div>
+                                <a class="o_kanban_manage_toggle_button o_left" href="#"
+                                   groups="project.group_project_manager">
+                                    <i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/>
+                                </a>
+                                <span class="o_right">
+                                    <field name="is_favorite" widget="boolean_favorite" nolabel="1" force_save="1"/>
+                                </span>
+                            </div>
+
+                            <div class="o_project_kanban_boxes">
+                                <a class="o_project_kanban_box" name="action_view_sub_projects" type="object">
+                                    <div>
+                                        <t t-if="record.sub_proj_created.raw_value">
+                                            <span>Sub Projects:</span>
+                                            <span class="o_label">
+                                                <t t-esc="record.sub_proj_count.value"/>
+                                            </span>
+                                        </t>
+                                        <t t-else="">
+                                            <span>Tasks:</span>
+                                            <span class="o_value">
+                                                <t t-esc="record.task_count.value"/>
+                                            </span>
+                                        </t>
+                                    </div>
+                                </a>
+                                <br/>
+                                <div>
+                                    <span>Project Description:</span>
+                                    <span class="o_value_name">
+                                        <t t-esc="record.so_desc.value"/>
+                                    </span>
+                                </div>
+                                <a t-if="record.analytic_account_id.raw_value"
+                                   class="o_project_kanban_box o_project_timesheet_box"
+                                   name="action_view_account_analytic_line" type="object"
+                                   groups="analytic.group_analytic_accounting">
+                                    <div>
+                                        <span class="o_label">Profitability</span>
+                                    </div>
+                                </a>
+                            </div>
+
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="project_view_form_simplified_inherited" model="ir.ui.view">
+        <field name="name">project.simplified.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="is_a_template" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="attrs">{'readonly':[('is_a_template','=',False)]}</attribute>
+            </xpath>
+            <xpath expr="//group" position="inside">
+                <field name="project_template"/>
+            </xpath>
+            <!--             <xpath expr="//field[@name='name']" position="attributes">-->
+            <!--                 <attribute name="required">0</attribute>-->
+            <!--            </xpath>-->
+        </field>
+    </record>
+
+    <record id="inherit_view_task_form2" model="ir.ui.view">
+        <field name="name">task.form2.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+
+            <!--            <field name="/form//div[hasclass('pr-0')]//field[@name='kanban_state']" position="after">-->
+            <xpath expr="//field[@name='kanban_state']" position="replace">
+                <field name="kanban_state" invisible="1"/>
+                <label for="kanban_state" string=" " attrs="{'invisible': [('kanban_state', '!=', 'new')]}"
+                       class="o_status o_status_blue oe_project_kanban_legend ml-auto"
+                       title="This step is done. Click to block or set in progress."
+                       aria-label="This step is done. Click to block or set in progress." role="img"/>
+                <label for="kanban_state" string=" " style="background-color: #90EE90"
+                       attrs="{'invisible': [('kanban_state', '!=', 'complete')]}"
+                       class="o_status oe_project_kanban_legend ml-auto"
+                       title="This step is done. Click to block or set in progress."
+                       aria-label="This step is done. Click to block or set in progress." role="img"/>
+                <label for="kanban_state" string=" " style="background-color: #FFA500"
+                       class="o_status oe_project_kanban_legend ml-auto"
+                       attrs="{'invisible': [('kanban_state', '!=', 'blocked')]}"
+                       title="This step is done. Click to block or set in progress."
+                       aria-label="This step is done. Click to block or set in progress." role="img"/>
+                <label for="kanban_state" string=" " style="background-color: #006400"
+                       class="o_status oe_project_kanban_legend ml-auto"
+                       attrs="{'invisible': [('kanban_state', '!=', 'done')]}"
+                       title="This step is done. Click to block or set in progress."
+                       aria-label="This step is done. Click to block or set in progress." role="img"/>
+                <label for="kanban_state" string=" " style="background-color: #FFFF00"
+                       class="o_status oe_project_kanban_legend ml-auto"
+                       attrs="{'invisible': [('kanban_state', '!=', 'normal')]}"
+                       title="This step is done. Click to block or set in progress."
+                       aria-label="This step is done. Click to block or set in progress." role="img"/>
+                <label for="kanban_state" string=" " style="background-color: #0000FF"
+                       class="o_status oe_project_kanban_legend ml-auto"
+                       attrs="{'invisible': [('kanban_state', '!=', 'in_review')]}"
+                       title="This step is done. Click to block or set in progress."
+                       aria-label="This step is done. Click to block or set in progress." role="img"/>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="kanban_state"/>
+            </xpath>
+
+            <xpath expr="//page[@name='extra_info']/group/group" position="inside">
+                <field name="is_a_template" invisible="1"/>
+                <field name="is_estimated_deadline" invisible="1"/>
+            </xpath>
+            <xpath expr="//page[@name='extra_info']" position="attributes">
+                <attribute name="attrs">{'invisible':[('is_a_template','=',True)]}</attribute>
+            </xpath>
+            <xpath expr="/form//field[@name='partner_phone']" position="after">
+                <field name="estimated_deadline" widget="date"/>
+                <field name="so_description"/>
+                <field name="start_date"/>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <!--                <xpath expr="//button[@name='action_assign_to_me']" position="after">-->
+                <button name="utilisation_record" type="object" string="Resource Utilisation" class="btn-primary"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_task_kanban_inherit" model="ir.ui.view">
+        <field name="name">task.kanban.view.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="/kanban//field[@name='kanban_state']" position="replace">
+                <field name="kanban_state" invisible="1"/>
+                <label for="kanban_state" string=" " attrs="{'invisible': [('kanban_state', '!=', 'new')]}"
+                       class="o_status o_status_blue oe_project_kanban_legend ml-auto"
+                       title="This step is done. Click to block or set in progress."
+                       aria-label="This step is done. Click to block or set in progress." role="img"/>
+                <label for="kanban_state" string=" " style="background-color: #90EE90"
+                       attrs="{'invisible': [('kanban_state', '!=', 'complete')]}"
+                       class="o_status oe_project_kanban_legend ml-auto"
+                       title="This step is done. Click to block or set in progress."
+                       aria-label="This step is done. Click to block or set in progress." role="img"/>
+                <label for="kanban_state" string=" " style="background-color: #FFA500"
+                       class="o_status oe_project_kanban_legend ml-auto"
+                       attrs="{'invisible': [('kanban_state', '!=', 'blocked')]}"
+                       title="This step is done. Click to block or set in progress."
+                       aria-label="This step is done. Click to block or set in progress." role="img"/>
+                <label for="kanban_state" string=" " style="background-color: #006400"
+                       class="o_status oe_project_kanban_legend ml-auto"
+                       attrs="{'invisible': [('kanban_state', '!=', 'done')]}"
+                       title="This step is done. Click to block or set in progress."
+                       aria-label="This step is done. Click to block or set in progress." role="img"/>
+                <label for="kanban_state" string=" " style="background-color: #FFFF00"
+                       class="o_status oe_project_kanban_legend ml-auto"
+                       attrs="{'invisible': [('kanban_state', '!=', 'normal')]}"
+                       title="This step is done. Click to block or set in progress."
+                       aria-label="This step is done. Click to block or set in progress." role="img"/>
+                <label for="kanban_state" string=" " style="background-color: #0000FF"
+                       class="o_status oe_project_kanban_legend ml-auto"
+                       attrs="{'invisible': [('kanban_state', '!=', 'in_review')]}"
+                       title="This step is done. Click to block or set in progress."
+                       aria-label="This step is done. Click to block or set in progress." role="img"/>
+            </xpath>
+
+            <xpath expr="/kanban//progressbar[@field='kanban_state']" position="replace">
+                <progressbar field="kanban_state"
+                             colors='{"done": "success", "blocked": "danger", "normal": "primary", "paused": "warning", "new": "muted"}'/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="inherit_view_task_form2_inherited" model="ir.ui.view">
+        <field name="name">project.task.form2.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+        <field name="groups_id" eval="[(6,0, (ref('hr_timesheet.group_hr_timesheet_user'),))]"/>
+        <field name="arch" type="xml">
+            <!--            <xpath expr="//field[@name='timesheet_ids']/tree//field[@name='employee_id']" position="attributes">-->
+            <!--                <attribute name="nolabel">1</attribute>-->
+            <!--            </xpath>-->
+
+            <field name="legend_done" position="after">
+                <field name="legend_new" invisible="1"/>
+                <field name="legend_paused" invisible="1"/>
+            </field>
+
+
+            <!--            <xpath expr="//field[@name='timesheet_ids']/tree//field[@name='unit_amount']" position="before">-->
+            <!--                <field name="no_of_days"/>-->
+            <!--                &lt;!&ndash;                <button name="utilisation_record" type="object" string="Resource Utilisation" class="btn-primary"/>&ndash;&gt;-->
+            <!--            </xpath>-->
+            <xpath expr="/form" position="inside">
+                <field name="is_a_template" invisible="1"/>
+            </xpath>
+            <xpath expr="//page[@id='timesheets_tab']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('allow_timesheets', '=',
+                    False),('is_a_template','=',True)]}
+                </attribute>
+            </xpath>
+
+            <!--             <xpath expr="//page[@id='timesheets_tab']//field[@name='planned_hours']" position="after">-->
+            <!--                <field name="start_date"/>-->
+            <!--            </xpath>-->
+        </field>
+    </record>
+
+    <record id="project.open_view_project_all" model="ir.actions.act_window">
+        <field name="name">Projects</field>
+        <field name="res_model">project.project</field>
+        <field name="domain">[('is_a_template','=',False)]</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="context">{'default_is_a_template': False}</field>
+        <field name="view_id" ref="project.view_project_kanban"/>
+        <field name="search_view_id" ref="project.view_project_project_filter"/>
+        <field name="target">main</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No projects found. Let's create one!
+            </p>
+            <p>
+                Projects regroup tasks on the same topic and each have their own dashboard.
+            </p>
+        </field>
+    </record>
+
+    <record id="open_view_project_all_copy" model="ir.actions.act_window">
+        <field name="name">Project Template</field>
+        <field name="res_model">project.project</field>
+        <field name="domain">[('is_a_template','=',True)]</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="context">{'default_is_a_template': True}</field>
+        <field name="view_id" ref="project.view_project_kanban"/>
+        <field name="search_view_id" ref="project.view_project_project_filter"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No projects found. Let's create one!
+            </p>
+            <p>
+                Projects regroup tasks on the same topic and each have their own dashboard.
+            </p>
+        </field>
+    </record>
+
+    <record id="sequence_project_name" model="ir.sequence">
+        <field name="name">Project Name</field>
+        <field name="code">project.project</field>
+        <field name="active">TRUE</field>
+        <field name="prefix">P</field>
+        <field name="padding">3</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <!--    <record id="open_view_sub_project" model="ir.actions.act_window">-->
+    <!--        <field name="name">Projects</field>-->
+    <!--        <field name="res_model">project.project</field>-->
+    <!--        <field name="domain">[('id','in',sub_proj),('is_a_template','=',False)]</field>-->
+    <!--        <field name="view_mode">kanban,form</field>-->
+    <!--        <field name="context">{'default_is_a_template': False}</field>-->
+    <!--        <field name="view_id" ref="project.view_project_kanban"/>-->
+    <!--        <field name="search_view_id" ref="project.view_project_project_filter"/>-->
+    <!--        <field name="help" type="html">-->
+    <!--            <p class="o_view_nocontent_smiling_face">-->
+    <!--                No projects found. Let's create one!-->
+    <!--            </p><p>-->
+    <!--            Projects regroup tasks on the same topic and each have their own dashboard.-->
+    <!--        </p>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+
+    <menuitem id="project_template"
+              name="Project Templates"
+              parent="project.menu_main_pm"
+              action="se_custom.open_view_project_all_copy"/>
+
+
+    <record id="task_type_edit_inherited" model="ir.ui.view">
+        <field name="name">task.type.edit.inherit</field>
+        <field name="model">project.task.type</field>
+        <field name="inherit_id" ref="project.task_type_edit"/>
+        <field name="arch" type="xml">
+            <field name="legend_done" position='after'>
+                <label for="legend_new" string=" " style="background-color: #0000FF"
+                       class="o_status o_status_blue oe_project_kanban_legend"
+                       title="This step is done. Click to block or set in progress."
+                       aria-label="This step is done. Click to block or set in progress." role="img"/>
+                <field name="legend_new" nolabel="1"/>
+                <label for="legend_paused" string=" " style="background-color: #FFFF00"
+                       class="o_status o_status_yellow oe_project_kanban_legend"
+                       title="This step is done. Click to block or set in progress."
+                       aria-label="This step is done. Click to block or set in progress." role="img"/>
+                <field name="legend_paused" nolabel="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="inherit_task_deadline" model="ir.ui.view">
+        <field name="name">inherit_task_deadline</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form//field[@name='parent_id']" position="after">
+                <field name="project_manager_task"/>
+                <field name="sale_order_id"/>
+                <field name="is_user" invisible="1"/>
+            </xpath>
+<!--            <xpath expr="/form//field[@name='date_deadline']" position="replace">-->
+<!--                <field name="date_deadline" attrs="{'invisible': ['|',('is_closed', '=', True),('is_user', '=', False)]}"/>-->
+<!--            </xpath>-->
+        </field>
+    </record>
+
+
+</odoo>
+

@@ -1,0 +1,152 @@
+<odoo>
+    <record id="pre_sale_submission_inherit_tree" model="ir.ui.view">
+        <field name="name">pre_sale_submission_inherit_tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="version"/>
+                <field name="responses"/>
+                <field name="priority_select" widget="priority"/>
+            </xpath>
+            <xpath expr="//field[@name='create_date']" position="after">
+                <field name="submission_date"/>
+            </xpath>
+        </field>
+    </record>
+
+<!--    <record id="pre_sale_filter_inherit_tree" model="ir.ui.view">-->
+<!--        <field name="name">pre_sale_filter_inherit_tree</field>-->
+<!--        <field name="model">sale.order</field>-->
+<!--        <field name="inherit_id" ref="sale.view_sales_order_filter"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='partner_id']" position="after">-->
+<!--                <field name="version"/>-->
+<!--                <field name="responses"/>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='create_date']" position="after">-->
+<!--                <field name="submission_date"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+
+    <record id="pre_sale_submission_inherit_order_tree" model="ir.ui.view">
+        <field name="name">pre_sale_submission_inherit_order_tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_order']" position="after">
+                <field name="submission_date"/>
+                <field name="version"/>
+                <field name="priority_select" widget="priority"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="pre_sale_submission_inherit" model="ir.ui.view">
+        <field name="name">pre_sale_submission_inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@id='action_confirm']" position="replace">
+                <button name="%(pre_sales.action_sale_confirm)d" id="action_confirms" string="Confirm"
+                        class="btn-primary" type="action"
+                        attrs="{'invisible': [('state', 'not in', ['sent'])]}"/>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm']" position="replace">
+                <button name="%(pre_sales.action_sale_confirm)d" string="Confirm" type="action"
+                        attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
+            </xpath>
+            <xpath expr="//field[@name='validity_date']" position="attributes">
+                <attribute name="attrs">{'invisible': 1}</attribute>
+            </xpath>
+            <xpath expr="/form//field[@name='date_order']" position="after">
+                <field name="version" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                <field name="check_proposal" invisible="1"/>
+<!--                <field name="assign_many_proposal" widget="many2many_tags"/>-->
+                <field name="count" invisible="1"/>
+                <field name="responses" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+<!--                <field name="priority"/>-->
+                <field name="priority_select" widget="priority" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                <field name="submission_date" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                <field name="apply_status" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                <field name="reason_id" attrs="{'invisible': [('apply_status', '!=', 'no')],'readonly': [('state', 'in', ('done','cancel'))]}"/>
+            </xpath>
+            <xpath expr="//page[@name='customer_signature']" position="after">
+                <page string="Salesperson Utilisation" name="salesperson_utilise">
+                    <div name="button_box" align="center">
+                        <h2>
+                            <button name="action_smart_leave_views" class="oe_stat_button" string="Leaves"
+                                    icon="fa-pencil-square-o"
+                                    type="object"/>
+                            <button name="action_smart_salesperson_utilise_views" class="oe_stat_button"
+                                    string="SalesPerson Utilisation "
+                                    icon="fa-pencil-square-o"
+                                    type="object"/>
+                        </h2>
+                    </div>
+                </page>
+                <page string="Document History" name="document_history">
+                    <group>
+                        <group>
+                            <field name="application_name" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                            <field name="approval_need" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                            <field name="no_of_login" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                            <field name="no_of_modules" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                            <field name="total_no_of_pages" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                            <field name="no_of_dynamic_pages" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                        </group>
+                        <group>
+                            <field name="no_of_application_role" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                            <field name="cms_present" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                            <field name="payment_present" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                            <field name="shores" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                            <field name="no_audits" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                            <field name="author" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                        </group>
+                    </group>
+                </page>
+                <page string="Finances" name="finances">
+                    <field name="sale_work_id" widget="one2many" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale.action_quotations_with_onboarding" model="ir.actions.act_window">
+        <field name="name">Quotations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="search_view_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="context">{'search_default_salesperson': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new quotation, the first step of a new sale!
+            </p>
+            <p>
+                Once the quotation is confirmed by the customer, it becomes a sales order.
+                <br/>
+                You will be able to create an invoice and collect the payment.
+            </p>
+        </field>
+    </record>
+
+
+    <record id="sale.action_report_saleorder" model="ir.actions.report">
+        <field name="name">Quotation / Order</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sale.report_saleorder</field>
+        <field name="report_file">sale.report_saleorder</field>
+        <field name="print_report_name">(object.state in ('draft', 'sent') and 'Quotation - %s-%s' %
+            (object.name,object.version)) or 'Order - %s-%s' % (object.name,object.version)
+        </field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

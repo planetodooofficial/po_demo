@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="survey_survey_form_view_inherited" model="ir.ui.view">
+        <field name="name">survey.survey.form.view</field>
+        <field name="model">survey.survey</field>
+        <field name="inherit_id" ref="survey.survey_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form//div[hasclass('oe_title')]" position="after">
+                <group>
+                    <group>
+                        <field name="candidate" attrs="{'invisible':[('candidate','=',False)]}"/>
+                    </group>
+                    <group>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_custom_survey_form">
+        <field name="name">Surveys</field>
+        <field name="res_model">survey.survey</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'search_default_groupby_state': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new survey
+            </p>
+        </field>
+    </record>
+</odoo>

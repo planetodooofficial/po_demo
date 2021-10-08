@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="offer_letter_details_tree" model="ir.ui.view">
+        <field name="name">offer_letter_details_tree</field>
+        <field name="model">offer.letter</field>
+        <field name="arch" type="xml">
+            <tree string="Offer Letter Details">
+                <field name="cand_name"/>
+                <field name="job_id"/>
+                <field name="date_of_join"/>
+                <field name="ctcs" widget="monetary"/>
+                <field name="job_location"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="offer_letter_details_form" model="ir.ui.view">
+        <field name="name">offer_letter_details_form</field>
+        <field name="model">offer.letter</field>
+        <field name="arch" type="xml">
+            <form string="Offer letter Details">
+                <header>
+                    <button name="approval_need_from_hod" string="Offer letter approve" type="object"
+                            groups="se_hr.group_HR_hod_user" class="oe_highlight"
+                            attrs="{'invisible': [('state','!=','new')]}"/>
+                    <button name="reject_by_hod" string="Reject" type="object"
+                            groups="se_hr.group_HR_hod_user" class="oe_highlight"
+                            attrs="{'invisible': ['|',('state','!=','new'),('is_reject_offer','=',True)]}"/>
+                    <button name="approval_need" string="Send Email to Hod" type="object" class="oe_highlight"
+                            attrs="{'invisible': [('state','!=','new')]}"/>
+                    <button class="oe_stat_button" name="send_candidate" type="object" string="Offer Release"
+                            attrs="{'invisible': ['|',('state','=','new'),('is_approve_cand','=',True)]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,approved"/>
+                </header>
+                <sheet string="Offer letter Details">
+                    <widget name="web_ribbon" title="Accepted" bg_color="bg-success"
+                            attrs="{'invisible': [('is_approve_cand', '=', False)]}"/>
+                    <group>
+                        <group>
+                            <field name="cand_name"/>
+                            <field name="job_id"/>
+                            <label for="street" string="Correspondence Address"/>
+                            <div class="o_address_format">
+                                <field name="street" placeholder="Street"/>
+                                <field name="street2" placeholder="Street2" invisible="1"/>
+                                <field name="city" placeholder="City"/>
+                                <field name="state_id" class="o_address_state" placeholder="State..."
+                                       options='{"no_open": True}'/>
+                                <field name="country_id" placeholder="Country" class="o_address_country"
+                                       options='{"no_open": True, "no_create": True}'/>
+                                <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                            </div>
+                            <field name="is_approve_cand" invisible="1"/>
+                            <field name="is_reject_offer" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="date_of_join"/>
+                            <field name="ctcs" widget="monetary"/>
+                            <field name="job_location"/>
+                            <field name="reject_reason_offer" attrs="{'invisible': [('is_reject_offer', '=', False)]}"/>
+                        </group>
+                        <group>
+                            <field name="trans_allow_annuals"/>
+                            <field name="medical_allow_annuals"/>
+                            <field name="statutory_bonus_annuals"/>
+                            <field name="join_in_bonus"/>
+                        </group>
+                        <group>
+                            <field name="plb_annuals"/>
+                            <field name="certi_allows"/>
+                            <field name="medical_allows"/>
+                            <field name="pf_annuals"/>
+                            <field name="clause"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_offer_letter" model="ir.actions.act_window">
+        <field name="name">Offer Letter Details</field>
+        <field name="res_model">offer.letter</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="email_offer_letter_approval" model="mail.template">
+        <field name="name">Offer letter Email</field>
+        <field name="model_id" ref="se_hr.model_offer_letter"/>
+        <field name="subject">"Offer Letter"</field>
+        <field name="email_from">${(object.cand_name.email_from) | safe}</field>
+        <field name="partner_to">False</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                    Dear ${object.cand_name.partner_name} ,<br/>Your Offer Letter Has been generated please find the
+                    attachment
+                    <br/>
+                    <br/>
+                </p>
+                <div class="col">
+                    <a href="${object.get_base_url()}/approve/${object.id}"
+                       target="_blank"
+                       style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                        Accept
+                    </a>
+                </div>
+
+            </div>
+        </field>
+        <field name="report_template" ref="action_offer_letter_receipt"/>
+        <field name="report_name">${(object.cand_name.partner_name or '').replace('/','_')}</field>
+        <!--        <field name="lang">${object.partner_id.lang}</field>-->
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <record id="mail_compose_candidate_form" model="ir.ui.view">
+        <field name="name">mail_compose_candidate_form</field>
+        <field name="model">mail.compose.message</field>
+        <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form//field[@name='subject']" position="before">
+                <field name="emailto"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <menuitem
+            name="Offer Letter Details"
+            parent="hr_recruitment.menu_crm_case_categ0_act_job"
+            id="menu_offer_details" action="action_offer_letter" sequence="3"/>
+
+
+</odoo>

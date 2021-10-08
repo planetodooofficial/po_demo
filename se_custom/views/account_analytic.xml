@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_timesheet_line_tree_view_inherited" model="ir.ui.view">
+        <field name="name">account.analytic.view.inherit</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="/tree//field[@name='date']" position="after">
+                <field name="show_approve" invisible="1"/>
+            </xpath>
+<!--            Commented as a new requirement-->
+            <xpath expr="/tree//field[@name='date']" position="after">
+                <field name="initial_planned_hours"/>
+            </xpath>
+            <xpath expr="/tree//field[@name='unit_amount']" position="after">
+                <field name="status" />
+                <button name="approve_entry" type="object" string="Approve" attrs="{'invisible':[('status', '=', 'submitted')]}" class="btn-primary"/>
+            </xpath>
+<!--             <xpath expr="/tree//button[@name='approve_entry']" position="attributes">-->
+<!--                    <attribute name="groups">hr_timesheet.group_hr_timesheet_approver</attribute>-->
+<!--             </xpath>-->
+        </field>
+    </record>
+
+
+
+</odoo>

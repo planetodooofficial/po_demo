@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <template id="template_pip_report">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="pip">
+                <div class="page" style="font-size:13px;">
+                    <div class="oe_structure"/>
+                    <div style="text-align: center;">
+                        <span style="text-align: center;"><strong>PERFORMANCE IMPROVEMENT PLAN (PIP)</strong></span>
+                    </div>
+                    <br/><br/><br/>
+                    <span>
+                        The purpose of this Performance Improvement Plan (PIP) is to define serious areas of concern, gaps in your work performance, reiterate SecurEyes expectations, and allow the employee an opportunity to demonstrate improvement and commitment. During the period of the PIP the employee will be monitored to assess if appropriate improvement is being made.
+                    </span>
+                    <br/>
+                    <table class="table" style="text-align: center;">
+                        <tr>
+                            <td style="border:1px solid black;">
+                                <span style="text-align: left;"><strong>Name of employee : </strong></span>
+                                <t t-esc="pip.emp_id.name"/>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <span style="text-align: left;"><strong>Designation : </strong></span>
+                                <t t-esc="pip.designation.name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid black;">
+                                <span style="text-align: left;"><strong>Reporting Manager Name : </strong></span>
+                                <t t-esc="pip.manager.name"/>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <span style="text-align: left;"><strong>Level : </strong></span>
+                                <t t-esc="pip.level"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid black;">
+                                <span style="text-align: left;"><strong>Date of Initial Meeting : </strong></span>
+                                <t t-esc="pip.init_meet_date"/>
+                            </td>
+                            <td style="border:1px solid black;">
+
+                            </td>
+                        </tr>
+                    </table>
+                    <br/><br/>
+<!--                    <t t-if="pip.prev_details">-->
+<!--                        <span><strong>-->
+<!--                            PREVIOUS OBSERVATIONS, DISCUSSIONS OR COUNSELLING DETAILS BEFORE ADDING THE EMPLOYEE ON PIP-->
+<!--                        </strong></span>-->
+<!--                        <br/>-->
+<!--                        <table class="table" style="text-align: center;">-->
+<!--                            <thead>-->
+<!--                                <tr>-->
+<!--                                    <th style="border:1px solid black;">-->
+<!--                                        Sr. No.-->
+<!--                                    </th>-->
+<!--                                    <th style="border:1px solid black;">-->
+<!--                                        Previous Observations, Discussions or Counselling details:-->
+<!--                                    </th>-->
+<!--                                    <th style="border:1px solid black;">-->
+<!--                                        Date-->
+<!--                                    </th>-->
+<!--                                </tr>-->
+<!--                            </thead>-->
+<!--                            <t t-set="i" t-value="1"/>-->
+<!--                            <tr t-foreach="pip.prev_details" t-as="prev_details">-->
+<!--                                <td style="border:1px solid black;">-->
+<!--                                    <span t-esc="i"/>-->
+<!--                                </td>-->
+<!--                                <t t-set="i" t-value="i+1"/>-->
+<!--                                <td style="border:1px solid black;">-->
+<!--                                    <t t-esc="prev_details.name"/>-->
+<!--                                </td>-->
+<!--                                <td style="border:1px solid black;">-->
+<!--                                    <t t-esc="prev_details.date"/>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </table>-->
+<!--                    </t>-->
+                    <t t-if="meetings">
+                        <span><strong>Meetings:</strong></span>
+                        <br/><br/>
+                        <t t-foreach="meetings" t-as="meeting">
+                            <strong>Meeting Date: <t t-esc="meeting.create_date"/></strong>
+                            <table class="table" style="text-align: center;">
+                                <thead>
+                                    <th style="border:1px solid black;">
+                                        Improvement goals/Expected outcomes
+                                    </th>
+                                    <th style="border:1px solid black;">
+                                        Success criterian
+                                    </th>
+                                    <th style="border:1px solid black;">
+                                        Commnets
+                                    </th>
+                                    <th style="border:1px solid black;">
+                                        Met/Not met
+                                    </th>
+                                </thead>
+                                <tr t-foreach="meeting.goals_outcomes" t-as="goal_outcome">
+                                    <td style="border:1px solid black;">
+                                        <t t-esc="goal_outcome.name"/>
+                                    </td>
+                                    <td style="border:1px solid black;">
+                                        <t t-esc="goal_outcome.success_criteria"/>
+                                    </td>
+                                    <td style="border:1px solid black;">
+                                        <t t-esc="goal_outcome.comments"/>
+                                    </td>
+                                    <td style="border:1px solid black;">
+                                        <t t-if="goal_outcome.met_notmet == True">
+                                        <strong>Met</strong>
+                                        </t>
+                                        <t t-else="">
+                                            <strong>Not Met</strong>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                        </t>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_pip_report" model="ir.actions.report">
+        <field name="name">PIP/BIP Report</field>
+        <field name="model">pip.bip</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">se_appraisal.template_pip_report</field>
+        <field name="report_file">se_appraisal.template_pip_report</field>
+        <field name="print_report_name">'PIP for : %s' % object.emp_id.name</field>
+        <field name="binding_model_id" ref="model_pip_bip"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

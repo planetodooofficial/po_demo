@@ -1,0 +1,31 @@
+<odoo>
+
+    <record id="import_role_view" model="ir.ui.view">
+        <field name="name">import_role_view</field>
+        <field name="model">import.role</field>
+        <field name="arch" type="xml">
+            <form string="Import Role">
+                <group>
+                    <field name="upload_file"/>
+                </group>
+                <footer>
+                    <button name="import_roles" string="Import Roles" type="object" class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_import_role" model="ir.actions.act_window">
+        <field name="name">Import Roles</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">import.role</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_view_types">list</field>
+    </record>
+
+    <menuitem name="Import Okrs" action="action_import_role" id="hr_role_okr_mapping_menu"
+              parent="okr_parent_menu"/>
+
+</odoo>
