@@ -165,18 +165,20 @@ class JoineMailEmployee(models.Model):
                                                     """
 
             # alert_mail = self.env['res.config.settings'].search([], order='id desc', limit=1)
-            email_vals = {
+            email_vals_seven = {
                 'subject': """Joinee Mail""",
                 # 'email_from': 'onboarding@walplast.com',
-                'email_to': 'shivani.planetodoo@gmail.com',
+                'email_to': emp.employee_id.work_email,
                 'body_html': message,
             }
-            email_vals = {
+            email_vals_one = {
                 'subject': """Joinee Mail""",
                 # 'email_from': 'onboarding@walplast.com',
-                'email_to': 'aum@planet-odoo.com',
+                'email_to': emp.employee_id.work_email,
                 'body_html': message_one_day,
             }
-            email = self.env['mail.mail'].sudo().create(email_vals)
-            email.sudo().send()
+            email_seven = self.env['mail.mail'].sudo().create(email_vals_seven)
+            email_seven.sudo().send()
+            email_one = self.env['mail.mail'].sudo().create(email_vals_one)
+            email_one.sudo().send()
             # emp.active_flag=True
