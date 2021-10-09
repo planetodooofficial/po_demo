@@ -29,6 +29,8 @@
             <xpath expr="//button[@name='confirm_visitor']" position="after">
                 <button name="alert_mail_doj" string="Inform Mail"
                         type="object"/>
+                <button name="alert_mail_dept" string="Inform Mail to IT Department"
+                        type="object"/>
             </xpath>
         </field>
     </record>

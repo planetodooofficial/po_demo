@@ -6,7 +6,9 @@ from odoo.exceptions import ValidationError
 
 date_format = "%Y-%m-%d"
 RESIGNATION_TYPE = [('resigned', 'Normal Resignation'),
-                    ('fired', 'Fired by the company')]
+                    ('fired', 'Fired by the company'),
+                    ('self', 'Self'),
+                    ('enabled', 'Enabled')]
 
 
 class HrResignation(models.Model):
@@ -51,11 +53,14 @@ class HrResignation(models.Model):
             self.read_only = True
         else:
             self.read_only = False
+        extract_date = datetime.strftime(self.employee_id.join_date, '%m/%d/%Y')
+        into_date = datetime.strptime(extract_date, '%m/%d/%Y')
+        self.joined_date = into_date
 
-    @api.onchange('employee_id')
-    def set_join_date(self):
-        # self.joined_date = self.employee_id.joining_date if self.employee_id.joining_date else ''
-        self.joined_date = self.employee_id.joining_date
+    # @api.onchange('employee_id')
+    # def set_join_date(self):
+    #     # self.joined_date = self.employee_id.joining_date if self.employee_id.joining_date else ''
+    #     self.joined_date = self.employee_id.joining_date
 
     # @api.depends('employee_id')
     # def compute_join_date(self):
@@ -80,6 +85,9 @@ class HrResignation(models.Model):
             if not self.env.user.has_group('hr.group_hr_user'):
                 if rec.employee_id.user_id.id and rec.employee_id.user_id.id != self.env.uid:
                     raise ValidationError(_('You cannot create request for other employees'))
+        extract_date = datetime.strftime(self.employee_id.join_date, '%m/%d/%Y')
+        into_date = datetime.strptime(extract_date, '%m/%d/%Y')
+        self.joined_date = into_date
 
     @api.onchange('employee_id')
     @api.depends('employee_id')
@@ -98,6 +106,9 @@ class HrResignation(models.Model):
                         if contracts.state == 'open':
                             rec.employee_contract = contracts.name
                             rec.notice_period = contracts.notice_days
+        extract_date = datetime.strftime(self.employee_id.join_date, '%m/%d/%Y')
+        into_date = datetime.strptime(extract_date, '%m/%d/%Y')
+        self.joined_date = into_date
 
     @api.constrains('joined_date')
     def _check_dates(self):
