@@ -173,6 +173,7 @@ class Mail_Resignation(models.Model):
             }
             email_settlement = self.env['mail.mail'].sudo().create(email_vals_settlement)
             email_settlement.sudo().send()
+        self.state='approved'
         return res
 
     def reminder_resignation_manager(self):
