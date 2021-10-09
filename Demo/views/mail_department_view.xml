@@ -7,10 +7,10 @@
         <field name="arch" type="xml">
              <xpath expr="//button[@name='approve_resignation']" position="after">
                 <button name="reminder_resignation_manager" string="Reminder Mail to Manager"
-                        attrs="{'invisible': [('state', '!=', 'approved')]}"
+                        attrs="{'invisible': [('state', '!=', 'confirm')]}"
                         type="object"/>
                  <button name="reminder_resignation_bhr" string="Reminder Mail to BHR Department"
-                         attrs="{'invisible': [('state', '!=', 'approved')]}"
+                         attrs="{'invisible': [('state', '!=', 'confirm')]}"
                         type="object"/>
             </xpath>
         </field>
