@@ -41,20 +41,31 @@
                         </div>
                         <group>
                             <group string="Employee Details">
-                                <field name="read_only" invisible="1"/>
-                                <field name="employee_id" attrs="{'readonly': ['|',('read_only','=',False),('state','=','approved')]}"/>
-                                <field name="department_id"/>
-                                <field name="employee_contract"/>
+                                <div>
+                                    <field name="read_only" invisible="1"/>
+                                    <field name="employee_id" attrs="{'readonly': ['|',('read_only','=',False),('state','=','approved')]}"/>
+                                    <field name="department_id"/>
+                                    <field name="employee_contract"/>
+                                </div>
+                                <div>
+
+                                </div>
                             </group>
                             <group string="Dates">
-                                <field name="joined_date"/>
-                                <field name="resign_confirm_date"
-                                       readonly="1"
-                                       attrs="{'invisible':[('resign_confirm_date','=',False)]}"/>
-                                <field name="expected_revealing_date" attrs="{'readonly': [('state','=','approved')]}"/>
-                                <field name="approved_revealing_date"
-                                        groups="hr.group_hr_user"/>
-                                <field name="notice_period"/>
+                                <div>
+                                    <field name="joined_date"/>
+                                    <field name="resign_confirm_date"
+                                           readonly="1"
+                                           attrs="{'invisible':[('resign_confirm_date','=',False)]}"/>
+                                    <field name="expected_revealing_date" attrs="{'readonly': [('state','=','approved')]}"/>
+                                    <field name="resignation_date"/>
+                                </div>
+                                <div>
+                                    <field name="approved_revealing_date"
+                                           groups="hr.group_hr_user"/>
+                                    <field name="notice_period"/>
+                                </div>
+
                             </group>
                             <group string="Resignation Details">
                                 <field name="resignation_type" string="Type" groups="hr.group_hr_user" attrs="{'readonly': [('state','=','approved')]}"/>

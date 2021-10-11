@@ -44,6 +44,7 @@
             </xpath>
             <xpath expr="/form//field[@name='company_id']" position="after">
                 <field name="emp_type"/>
+                <field name="buddy_name"/>
             </xpath>
 
             <!--            <xpath expr="/form//field[@name='parent_id']" position="after">-->

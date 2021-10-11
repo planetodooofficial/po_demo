@@ -42,6 +42,7 @@ class HrResignation(models.Model):
                                                                          "resignation or fired by the company")
     read_only = fields.Boolean(string="check field")
     employee_contract = fields.Char(String="Contract")
+    resignation_date = fields.Date("Resignation Date",default=fields.Date.context_today)
 
     @api.onchange('employee_id')
     @api.depends('employee_id')

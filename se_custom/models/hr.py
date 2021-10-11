@@ -159,7 +159,7 @@ class HrEmployee(models.Model):
     delegated_manager = fields.Many2one('res.users',string="Delegated Manager")
     delegated_expense_approver = fields.Many2one('res.users',string="Delegated Expense Approver")
     delegated_timeoff_approver = fields.Many2one('res.users',string="Delegated TimeOff Approver")
-
+    buddy_name = fields.Char("Buddy Name")
     # _sql_constraints = [
     #     ('employee_uniq', 'unique (name)',
     #      'Employee already exist with same name')
